@@ -4,7 +4,7 @@
 
     <?= $this->include('Layouts/sidebar') ?>
 
-    <main class="main-content">
+    <main class="main-content sidebar-collapsed">
         <?= $this->renderSection('main') ?>
     </main>
 

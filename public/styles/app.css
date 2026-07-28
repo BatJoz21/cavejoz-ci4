@@ -10,6 +10,197 @@
     --header-height: 64px;
 }
 
+.auth-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+}
+
+.auth-visual, .auth-form-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.auth-visual {
+    background: linear-gradient(135deg, var(--cave-surface, #1e2128), var(--bs-body-bg, #16181d));
+    position: relative;
+    overflow: hidden;
+}
+.auth-visual::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(217, 119, 6, 0.15), transparent 70%);
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+}
+
+.auth-visual-content {
+    text-align: center;
+    max-width: 380px;
+}
+
+.auth-visual-icon {
+    font-size: 4rem;
+    color: var(--bs-primary);
+    margin-bottom: 24px;
+    display: block;
+}
+
+.auth-visual-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #f0e6d8;
+    margin-bottom: 16px;
+}
+
+.auth-visual-tagline {
+    font-size: 1.1rem;
+    color: #8b8d94;
+    line-height: 1.6;
+}
+
+.auth-card {
+    background-color: var(--cave-surface, #1e2128);
+    border: 1px solid var(--bs-border-color, #2a2d35);
+    border-radius: 12px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+}
+
+@media (max-width: 768px) {
+    .auth-visual {
+        display: none;
+    }
+
+    .auth-page {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-form-side {
+        padding: 20px;
+    }
+
+    .auth-card {
+        padding: 24px;
+    }
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.875rem;
+    color: var(--cave-text-muted, #8b8d94);
+    font-weight: 600;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #2a2d35;
+    background-color: var(--bs-body-bg, #16181d);
+    color: #e4e4e7;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+.form-input:focus {
+    outline: none;
+    border-color: var(--bs-primary, #d97706);
+}
+
+.file-input-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.file-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-file-choose {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #2a2d35;
+    background-color: var(--cave-surface);
+    color: #e4e4e7;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+.btn-file-choose:hover {
+    border-color: var(--bs-primary);
+}
+
+.file-name {
+    color: #8b8d94;
+    font-size: 0.875rem;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--bs-primary);
+    color: #16181d;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.btn-submit:hover {
+    background-color: #b45f04;
+}
+.btn-submit:active {
+    transform: scale(0.98);
+}
+.btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.875rem;
+    color: #8b8d94;
+}
+
+.auth-switch-link {
+    color: var(--bs-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+.auth-switch-link:hover {
+    text-decoration: underline;
+}
+
+.auth-error {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    margin-bottom: 20px;
+}
+
 .cavejoz-header {
     display: grid;
     grid-template-columns: auto 1fr 2fr 1fr;
@@ -145,6 +336,7 @@
 }
 
 .sidebar-link {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -163,6 +355,16 @@
 .sidebar-link:hover {
     background-color: #1e2128;
     color: var(--bs-primary);
+}
+.sidebar-link:active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    background-color: var(--bs-primary);
+    border-radius: 0 2px 2px 0;
 }
 
 .sidebar-footer {

@@ -1,4 +1,4 @@
-<aside class="cavejoz-sidebar">
+<aside class="cavejoz-sidebar collapsed">
     <nav class="sidebar-nav">
         <a href="<?= base_url('/') ?>" class="sidebar-link"><i class="bi bi-house"></i><span>Home</span></a>
         <a href="<?= base_url('/profile') ?>" class="sidebar-link"><i class="bi bi-person"></i><span>Profile</span></a>
