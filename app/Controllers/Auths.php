@@ -21,7 +21,13 @@ class Auths extends BaseController
 
     public function registerNewUser()
     {
-        // ToDo: User Input Validation
+        // User Input Validation
+        $rules = config('Validation')->newUser;
+        if(!$this->validate($rules)) {
+            return redirect()->to('register')
+                             ->with('errors', $this->validator->getErrors())
+                             ->withInput();
+        }
 
         // Get Avatar Image File
         $avatar = $this->request->getFile('avatar');

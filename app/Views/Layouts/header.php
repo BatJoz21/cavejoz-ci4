@@ -7,12 +7,9 @@
         <i class="bi bi-compass"></i>
         <span>CaveJoz</span>
     </a>
-    <div class="header-search">
+    <a href="<?= base_url('search') ?>" class="header-search-link" aria-label="Search">
         <i class="bi bi-search"></i>
-        <input type="text" id="searchInput" placeholder="Search...">
-        <button type="submit" id="searchSubmit" aria-label="Search"><i class="bi bi-arrow-right"></i>
-        </button>
-    </div>
+    </a>
     <div class="header-notification">
         <i class="bi bi-bell"></i>
         <span class="notif-dot"></span>

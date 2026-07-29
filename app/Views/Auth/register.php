@@ -4,6 +4,19 @@
 
 <?= $this->section('auth-form') ?>
     <div class="auth-card">
+        <?php if(session("error") != null): ?>
+            <div class="auth-error"><?= esc(session('error')) ?></div>
+        <?php endif; ?>
+        <?php if(session("errors") != null): ?>
+            <div class="auth-error">
+                <ul>
+                    <?php foreach(session("errors") as $error): ?>
+                        <li><?= esc($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+        
         <?= form_open_multipart('/register') ?>
             <div class="form-group">
                 <label for="full_name">Full name</label>
