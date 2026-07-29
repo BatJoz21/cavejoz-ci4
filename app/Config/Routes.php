@@ -12,3 +12,5 @@ $routes->post('/logout', 'Auths::userLogout');
 $routes->get('session-test', function () {
     dd(session()->get());
 });
+
+$routes->get('/search', 'Searches::search');
