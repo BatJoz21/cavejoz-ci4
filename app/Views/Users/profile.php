@@ -1,0 +1,62 @@
+<?= $this->extend('Layouts/main-layout') ?>
+
+<?= $this->section('title') ?><?= esc($data['username'] ?? 'Profile') ?><?= $this->endSection() ?>
+
+<?= $this->section('main') ?>
+
+    <?php if(!empty($data)): ?>
+        <div class="profile-header">
+            <img src="<?= base_url('/avatar/' . $data['avatar_url']) ?>" alt="" class="profile-avatar">
+
+            <div class="profile-info">
+                <div class="profile-info-top">
+                    <h1 class="profile-username"><?= esc($data['username']) ?></h1>
+                    <?php if(session('user')['id'] == $data['id']): ?>
+                        <a href="<?= base_url('#') ?>" class="btn-profile-action">Edit Profile</a>
+                    <?php else: ?>
+                        <a href="<?= base_url('#') ?>" class="btn-profile-action">Add Friend</a>
+                    <?php endif; ?>
+                </div>
+
+                <div class="profile-stats">
+                    <span><strong><?= esc($data['total_post'], '0') ?></strong> posts</span>
+                    <span><strong><?= esc($data['total_friend'], '0') ?></strong> friends</span>
+                </div>
+
+                <p class="profile-fullname"><?= esc($data['full_name']) ?></p>
+                <p class="profile-bio"><?= esc($data['bio']) ?></p>
+            </div>
+        </div>
+
+        <?php if(!empty($posts)): ?>
+            <?php foreach($posts as $post): ?>
+                <div class="post-card">
+                    <div class="post-header">
+                        <img src="<?= base_url('/avatar/' . $data['avatar_url']) ?>" alt="" class="post-avatar">
+                        <div class="post-header-info">
+                            <span class="post-username"><?= esc($data['username']) ?></span>
+                            <span class="post-timestamp"></span>
+                        </div>
+                    </div>
+
+                    <div class="post-content">
+                        <p class="post-text"><?= esc($post['caption']) ?></p>
+                        <img src="<?= base_url('/content/image/' . $post['content_url']) ?>" alt="" class="post-image">
+                    </div>
+
+                    <div class="post-engagement">
+                        <button class="post-action" id="likeBtn">
+                            <i class="bi bi-heart"></i>
+                            <span class="post-action-count">12</span>
+                        </button>
+                        <button class="post-action">
+                            <i class="bi bi-chat"></i>
+                            <span class="post-action-count">3</span>
+                        </button>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    <?php endif; ?>
+
+<?= $this->endSection() ?>

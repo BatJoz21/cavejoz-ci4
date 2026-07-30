@@ -14,6 +14,11 @@ $routes->get('session-test', function () {
 
 $routes->group('/', ['filter' => 'jwtauth'], function($routes) {
     $routes->post('/logout', 'Auths::userLogout');
-    
+
     $routes->get('search', 'Searches::search');
+
+    $routes->get('profile', 'Users::openMyProfile');
+    $routes->get('avatar/(:segment)', 'Users::getUserAvatar/$1');
+
+    $routes->get('content/image/(:segment)', 'Posts::getPostContentImage/$1');
 });
