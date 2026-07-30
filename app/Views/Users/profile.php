@@ -14,7 +14,10 @@
                     <?php if(session('user')['id'] == $data['id']): ?>
                         <a href="<?= base_url('#') ?>" class="btn-profile-action">Edit Profile</a>
                     <?php else: ?>
-                        <a href="<?= base_url('#') ?>" class="btn-profile-action">Add Friend</a>
+                        <?= form_open('/friends') ?>
+                            <input type="hidden" name="addressee_id" value="<?= esc($data['id']) ?>">
+                            <button type="submit" class="btn-profile-action">Add Friend</button>
+                        <?= form_close() ?>
                     <?php endif; ?>
                 </div>
 

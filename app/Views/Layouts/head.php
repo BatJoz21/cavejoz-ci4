@@ -9,4 +9,5 @@
     <link rel="stylesheet" href="<?= base_url('styles/app.css') ?>">
     <link rel="stylesheet" href="<?= base_url('styles/header.css') ?>">
     <link rel="stylesheet" href="<?= base_url('styles/profile.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('styles/friendship.css') ?>">
 </head>

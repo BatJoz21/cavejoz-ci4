@@ -16,11 +16,13 @@ class Searches extends BaseController
 
     public function search()
     {
+        // Get user's input
         $search = $this->request->getGet('pageSearchInput');
         $searchResults = [];
 
         if(!empty($search)) {
-            $searchResults = $this->userModel->select('id, username, full_name')
+            // Get data from database
+            $searchResults = $this->userModel->select('id, username, full_name, avatar_url')
                                              ->like('username', $search)
                                              ->findAll();
         }

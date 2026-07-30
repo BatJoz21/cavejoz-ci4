@@ -47,6 +47,33 @@ class Users extends BaseController
         ]);
     }
 
+    public function openUserProfile(string $username)
+    {
+        // Call the API to get profile data
+        $response = $this->api->getUserProfile($username);
+        if(!$response['success']) {
+            return redirect()->to('/')
+                             ->with('error', $response['message']);
+        }
+        $data = $response['data'];
+
+         // Call the API to get total post and friend data
+        $data['total_post'] = $this->postApi->getTotalPostByUId($data['id'])['data'] ?? 0;
+        $data['total_friend'] = $this->friendshipApi->getTotalFriendByUId($data['id'])['data'] ?? 0;
+
+        // Call the API to get user's posts
+        $responsePost = $this->postApi->getUserPosts($data['id']);
+        if(!$responsePost['success']) {
+            return redirect()->to('/')
+                             ->with('error', 'Failed to get post data: ' . $responsePost['message']);
+        }
+        
+        return view('Users/profile', [
+            'data'  => $data,
+            'posts' => $responsePost['data']
+        ]);
+    }
+
     public function getUserAvatar(string $filename)
     {
         // Call the API to get the avatar

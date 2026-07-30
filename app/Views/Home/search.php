@@ -17,8 +17,12 @@
 
         <?php if(!empty($searchResults)): ?>
             <?php foreach($searchResults as $result): ?>
-                <a href="<?= base_url('/user/' . esc($result['id'])) ?>" class="search-result-item">
-                    <img src="#" alt="" class="search-result-avatar">
+                <a href="<?= base_url('/profile/' . esc($result['username'])) ?>" class="search-result-item">
+                    <?php if(!empty($result['avatar_url'])): ?>
+                        <img src="<?= base_url('/avatar/' . $result['avatar_url']) ?>" alt="" class="search-result-avatar">
+                    <?php else: ?>
+                        <img src="<?= base_url('avatar/default_user.png') ?>" alt="" class="search-result-avatar">
+                    <?php endif; ?>
                     <div class="search-result-info">
                         <span class="class-search-username"><?= esc($result['username']) ?></span>
                         <span class="class-search-fullname"><?= esc($result['full_name']) ?></span>

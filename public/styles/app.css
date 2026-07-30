@@ -7,6 +7,8 @@
     --cave-surface: #1e2128;
     --cave-text-muted: #8b8d94;
     --cave-accent-hover: #b45f04;
+    --cave-success: #22c55e;
+    --cave-danger: #ef4444;
     --header-height: 64px;
 }
 
@@ -203,6 +205,22 @@ body {
     border-radius: 8px;
     font-size: 0.875rem;
     margin-bottom: 20px;
+}
+
+.btn-empty-cta {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 24px;
+    border-radius: 8px;
+    background-color: var(--bs-primary);
+    color: #16181d;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.btn-empty-cta:hover {
+    background-color: #b45f04;
 }
 
 .search-page {
