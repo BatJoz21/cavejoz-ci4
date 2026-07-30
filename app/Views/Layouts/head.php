@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="<?= base_url('styles/app.css') ?>">
     <link rel="stylesheet" href="<?= base_url('styles/header.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('styles/auth.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('styles/search.css') ?>">
     <link rel="stylesheet" href="<?= base_url('styles/profile.css') ?>">
     <link rel="stylesheet" href="<?= base_url('styles/friendship.css') ?>">
 </head>

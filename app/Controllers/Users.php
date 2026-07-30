@@ -57,9 +57,16 @@ class Users extends BaseController
         }
         $data = $response['data'];
 
-         // Call the API to get total post and friend data
+        // Call the API to get total post and friend data
         $data['total_post'] = $this->postApi->getTotalPostByUId($data['id'])['data'] ?? 0;
         $data['total_friend'] = $this->friendshipApi->getTotalFriendByUId($data['id'])['data'] ?? 0;
+
+        // Call the API to get friendship status with logged in user
+        $data['friendship_status'] = $this->friendshipApi->getFriendshipStatus($data['id'])['data'] ?? '';
+        if($data['friendship_status'] === 'blocked') {
+            return redirect()->to('/')
+                             ->with('error', "Unable to open this user's profile");
+        }
 
         // Call the API to get user's posts
         $responsePost = $this->postApi->getUserPosts($data['id']);

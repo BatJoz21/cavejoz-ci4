@@ -2,3 +2,4 @@
 <script src="<?= base_url('js/sidebar.js') ?>"></script>
 <script src="<?= base_url('js/login.js') ?>"></script>
 <script src="<?= base_url('js/avatar-upload.js') ?>"></script>
+<script src="<?= base_url('js/alert.js') ?>"></script>

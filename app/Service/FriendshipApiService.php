@@ -69,6 +69,15 @@ class FriendshipApiService extends BaseApiService
         });
     }
 
+    public function getFriendshipStatus(int $targetUID)
+    {
+        return $this->handleRequest(function() use($targetUID) {
+            return $this->client->get('/friends/status/'. $targetUID, [
+                "headers"   => $this->getHeader()
+            ]);
+        });
+    }
+
     public function getTotalFriendByUId(int $uID)
     {
         return $this->handleRequest(function() use($uID) {
