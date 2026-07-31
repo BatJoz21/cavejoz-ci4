@@ -102,6 +102,20 @@ body {
     gap: 12px;
 }
 
+.form-textarea {
+    min-height: 90px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.char-counter {
+    display: block;
+    text-align: right;
+    font-family: 0.75rem;
+    color: #8b8d94;
+    margin-top: 4px;
+}
+
 .btn-file-choose {
     padding: 10px 16px;
     border-radius: 8px;

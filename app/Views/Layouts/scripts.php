@@ -5,3 +5,4 @@
 <script src="<?= base_url('js/alert.js') ?>"></script>
 <script src="<?= base_url('js/post.js') ?>"></script>
 <script src="<?= base_url('js/utils.js') ?>"></script>
+<script src="<?= base_url('js/form.js') ?>"></script>

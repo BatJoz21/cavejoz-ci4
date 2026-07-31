@@ -95,4 +95,38 @@ class Users extends BaseController
                               ->setHeader('Content-Length', strlen($body))
                               ->setBody($body);
     }
+
+    public function edit()
+    {
+        $response = $this->api->getMyProfile();
+        if(!$response['success']) {
+            return redirect()->to('/profile')
+                             ->with('error', $response['message']);
+        }
+
+        return view('Users/edit-profile', [
+            'user'  => $response['data']
+        ]);
+    }
+
+    public function update()
+    {
+        // Get Avatar Image File
+        $avatar = $this->request->getFile('avatar');
+
+        // Handle API response and redirect with success/error message
+        $response = $this->api->editUserData([
+            'username'      => $this->request->getPost('username'),
+            'full_name'     => $this->request->getPost('full_name'),
+            'bio'           => $this->request->getPost('bio')
+        ], $avatar);
+        if(!$response['success']) {
+            return redirect()->back()
+                             ->with('error', $response['message'])
+                             ->withInput();
+        }
+
+        return redirect()->to('/profile')
+                         ->with('message', $response['data']['message']);
+    }
 }

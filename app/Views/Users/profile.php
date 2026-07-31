@@ -19,7 +19,7 @@
                 <div class="profile-info-top">
                     <h1 class="profile-username"><?= esc($data['username']) ?></h1>
                     <?php if(session('user')['id'] == $data['id']): ?>
-                        <a href="<?= base_url('#') ?>" class="btn-profile-action">Edit Profile</a>
+                        <a href="<?= base_url('/profile/edit') ?>" class="btn-profile-action">Edit Profile</a>
                     <?php elseif(empty($data['friendship_status']) || $data['friendship_status'] == ''): ?>
                         <?= form_open('/friends') ?>
                             <input type="hidden" name="addressee_id" value="<?= esc($data['id']) ?>">

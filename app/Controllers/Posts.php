@@ -14,6 +14,11 @@ class Posts extends BaseController
         $this->api = new PostApiService();
     }
 
+    public function new()
+    {
+        return view('Posts/create');
+    }
+
     public function getPostContentImage(string $filename)
     {
         // Call the API to get the content image

@@ -28,4 +28,37 @@ class UserApiService extends BaseApiService
             'headers'   => $this->getHeader()
         ]);
     }
+
+    public function editUserData(array $data, ?\CodeIgniter\HTTP\Files\UploadedFile $avatar = null)
+    {
+        $multipart = [
+            [
+                'name'      => 'username',
+                'contents'  => $data['username']
+            ],
+            [
+                'name'      => 'full_name',
+                'contents'  => $data['full_name']
+            ],
+            [
+                'name'      => 'bio',
+                'contents'  => $data['bio']
+            ]
+        ];
+
+        if($avatar && $avatar->isValid()) {
+            $multipart[] = [
+                'name'      => 'avatar',
+                'contents'  => fopen($avatar->getTempName(), 'r'),
+                'filename'  => $avatar->getClientName()
+            ];
+        }
+
+        return $this->handleRequest(function() use($multipart) {
+            return $this->client->put('/profile', [
+                'headers'   => $this->getHeader(),
+                'multipart' => $multipart
+            ]);
+        });
+    }
 }
