@@ -5,6 +5,13 @@
 <?= $this->section('main') ?>
 
     <?php if(!empty($data)): ?>
+        <script>
+            const profileUserId = <?= json_encode($data['id']) ?>;
+            const profileUsername = <?= json_encode($data['username']) ?>;
+            const profileAvatarUrl = <?= json_encode(base_url('/avatar/' . $data['avatar_url'])) ?>;
+            const contentImageBaseUrl = <?= json_encode(base_url('/content/image/')) ?>;
+        </script>
+
         <div class="profile-header">
             <img src="<?= base_url('/avatar/' . $data['avatar_url']) ?>" alt="" class="profile-avatar">
 
@@ -34,33 +41,64 @@
         </div>
 
         <?php if(!empty($posts)): ?>
-            <?php foreach($posts as $post): ?>
-                <div class="post-card">
-                    <div class="post-header">
-                        <img src="<?= base_url('/avatar/' . $data['avatar_url']) ?>" alt="" class="post-avatar">
-                        <div class="post-header-info">
-                            <span class="post-username"><?= esc($data['username']) ?></span>
-                            <span class="post-timestamp"></span>
+            <div class="postList" id="postList">
+                <?php foreach($posts as $post): ?>
+                    <div class="post-card">
+                        <div class="post-header">
+                            <img src="<?= base_url('/avatar/' . $data['avatar_url']) ?>" alt="" class="post-avatar">
+                            <div class="post-header-info">
+                                <span class="post-username"><?= esc($data['username']) ?></span>
+                                <span class="post-timestamp"><?= date('d M Y', strtotime($post['created_at'])) ?></span>
+                            </div>
+
+                            <?php if(session('user')['id'] == $post['user_id']): ?>
+                                <div class="post-menu">
+                                    <button class="post-menu-trigger" aria-label="Post options">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <div class="post-menu-dropdown">
+                                        <a href="<?= base_url('/post/' . $post['id'] . '/edit') ?>" class="post-menu-item">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </a>
+                                        <a href="<?= base_url('/post/' . $post['id'] . '/delete') ?>" class="post-menu-item post-menu-item-danger">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="post-content">
+                            <p class="post-text"><?= esc($post['caption']) ?></p>
+                            <img src="<?= base_url('/content/image/' . $post['content_url']) ?>" alt="" class="post-image">
+                        </div>
+
+                        <div class="post-engagement">
+                            <button class="post-action" id="likeBtn">
+                                <i class="bi bi-heart"></i>
+                                <span class="post-action-count">12</span>
+                            </button>
+                            <button class="post-action">
+                                <i class="bi bi-chat"></i>
+                                <span class="post-action-count">3</span>
+                            </button>
                         </div>
                     </div>
+                <?php endforeach; ?>
+            </div>
 
-                    <div class="post-content">
-                        <p class="post-text"><?= esc($post['caption']) ?></p>
-                        <img src="<?= base_url('/content/image/' . $post['content_url']) ?>" alt="" class="post-image">
-                    </div>
-
-                    <div class="post-engagement">
-                        <button class="post-action" id="likeBtn">
-                            <i class="bi bi-heart"></i>
-                            <span class="post-action-count">12</span>
-                        </button>
-                        <button class="post-action">
-                            <i class="bi bi-chat"></i>
-                            <span class="post-action-count">3</span>
-                        </button>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+            <div class="load-more-wrapper" id="loadMoreWrapper">
+                <button class="btn-load-more" id="loadMoreBtn">Load More</button>
+            </div>
+        <?php else: ?>
+            <div class="profile-empty-state">
+                <i class="bi bi-camera-fill"></i>
+                <p class="profile-empty-title">No post yet</p>
+                <?php if(session('user')['id'] == $data['id']): ?>
+                    <p class="profile-empty-subtitle">When you share posts, they'll show up here.</p>
+                    <a href="<?= base_url('/posts/create') ?>" class="btn-empty-cta">Create a post</a>
+                <?php endif; ?>
+            </div>
         <?php endif; ?>
     <?php endif; ?>
 

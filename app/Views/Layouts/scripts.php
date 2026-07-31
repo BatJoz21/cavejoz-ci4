@@ -3,3 +3,5 @@
 <script src="<?= base_url('js/login.js') ?>"></script>
 <script src="<?= base_url('js/avatar-upload.js') ?>"></script>
 <script src="<?= base_url('js/alert.js') ?>"></script>
+<script src="<?= base_url('js/post.js') ?>"></script>
+<script src="<?= base_url('js/utils.js') ?>"></script>

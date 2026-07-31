@@ -28,4 +28,20 @@ class Posts extends BaseController
                               ->setHeader('Content-Length', strlen($body))
                               ->setBody($body);
     }
+
+    public function loadMorePosts(int $id, int $page)
+    {
+        $response = $this->api->getUserPosts($id, $page);
+        if(!$response['success']) {
+            return $this->response->setStatusCode(500)->setJSON([
+                'success'   => false,
+                'message'   => $response['message']
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'success'   => true,
+            'posts'     => $response['data']
+        ]);
+    }
 }

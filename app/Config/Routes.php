@@ -27,5 +27,6 @@ $routes->group('/', ['filter' => 'jwtauth'], function($routes) {
     $routes->get('profile/(:segment)', 'Users::openUserProfile/$1');
     $routes->get('avatar/(:segment)', 'Users::getUserAvatar/$1');
 
+    $routes->get('users/(:num)/posts/(:num)', 'Posts::loadMorePosts/$1/$2');
     $routes->get('content/image/(:segment)', 'Posts::getPostContentImage/$1');
 });

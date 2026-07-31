@@ -194,6 +194,70 @@ body {
 .post-header-info {
     display: flex;
     flex-direction: column;
+    flex: 1;
+}
+
+.post-menu {
+    position: relative;
+}
+
+.post-menu-trigger {
+    background: transparent;
+    border: none;
+    color: #8b8d94;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
+}
+.post-menu-trigger:hover {
+    background-color: #2a2d35;
+    color: #e4e4e7;
+}
+
+.post-menu-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    background-color: #1e2128;
+    border: 1px solid #2a2d35;
+    border-radius: 8px;
+    min-width: 140px;
+    padding: 6px;
+    z-index: 10;
+}
+.post-menu-dropdown.open {
+    display: block;
+}
+
+.post-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 10px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: #e4e4e7;
+    font-size: 0.875rem;
+    cursor: pointer;
+    text-align: left;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.post-menu-item:hover {
+    background-color: #2a2d35;
+}
+
+.post-menu-item-danger {
+    color: var(--cave-danger);
+}
+.post-menu-item-danger:hover {
+    background-color: rgba(239, 68, 68, 0.1);
 }
 
 .post-username {
