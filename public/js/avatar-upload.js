@@ -1,3 +1,4 @@
+// Avatar image
 const avatarTrigger = document.getElementById('avatarTrigger');
 const avatarInput = document.getElementById('avatar');
 const avatarFileName = document.getElementById('avatarFileName');

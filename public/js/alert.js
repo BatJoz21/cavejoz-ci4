@@ -6,3 +6,11 @@ document.querySelectorAll('.alert-close').forEach(btn => {
         }
     });
 });
+
+document.addEventListener('submit', (event) => {
+    if(event.target.classList.contains('post-delete-form')) {
+        if(!confirm('Delete this post? This cannot be undone.')) {
+            event.preventDefault();
+        }
+    }
+});

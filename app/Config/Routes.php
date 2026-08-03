@@ -30,6 +30,10 @@ $routes->group('/', ['filter' => 'jwtauth'], function($routes) {
     $routes->get('avatar/(:segment)', 'Users::getUserAvatar/$1');
 
     $routes->get('/posts/create', 'Posts::new');
+    $routes->post('/posts', 'Posts::create');
+    $routes->get('/posts/(:num)/edit', 'Posts::edit/$1');
+    $routes->patch('/posts/(:num)', 'Posts::update/$1');
+    $routes->post('/posts/(:num)/delete', 'Posts::delete/$1');
 
     $routes->get('users/(:num)/posts/(:num)', 'Posts::loadMorePosts/$1/$2');
     $routes->get('content/image/(:segment)', 'Posts::getPostContentImage/$1');

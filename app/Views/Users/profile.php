@@ -57,12 +57,15 @@
                                         <i class="bi bi-three-dots-vertical"></i>
                                     </button>
                                     <div class="post-menu-dropdown">
-                                        <a href="<?= base_url('/post/' . $post['id'] . '/edit') ?>" class="post-menu-item">
+                                        <a href="<?= base_url('/posts/' . $post['id'] . '/edit') ?>" class="post-menu-item">
                                             <i class="bi bi-pencil-square"></i> Edit
                                         </a>
-                                        <a href="<?= base_url('/post/' . $post['id'] . '/delete') ?>" class="post-menu-item post-menu-item-danger">
-                                            <i class="bi bi-trash"></i> Delete
-                                        </a>
+                                        <form action="<?= base_url('/posts/' . $post['id'] . '/delete') ?>" method="post" class="post-delete-form">
+                                            <?= csrf_field() ?>
+                                            <button type="submit" class="post-menu-item post-menu-item-danger">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             <?php endif; ?>

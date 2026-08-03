@@ -76,4 +76,15 @@ class Validation extends BaseConfig
             'rules'         => 'required|matches[password]',
         ],
     ];
+
+    public $newPost = [
+        'visibility'    => [
+            'label'         => 'Visibility',
+            'rules'         => 'required'
+        ],
+        'caption'       => [
+            'label'         => 'Caption',
+            'rules'         => 'required|max_length[500]',
+        ]
+    ];
 }

@@ -183,6 +183,123 @@ body {
     margin-left: 0;
 }
 
+.fab-create-post {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--bs-primary);
+    color: #16181d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    transition: transform 0.2s, background-color 0.2s;
+}
+.fab-create-post:hover {
+    background-color: #b45f04;
+    transform: scale(1.05);
+}
+
+.create-post-page {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 32px 16px;
+}
+
+.create-post-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f0e6d8;
+    margin-bottom: 24px;
+}
+
+.post-image-upload {
+    border: 2px dashed #2a2d35;
+    border-radius: 12px;
+    min-height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+.post-image-upload:hover {
+    border-color: var(--bs-primary);
+}
+
+.post-image-placeholder {
+    text-align: center;
+    border-color: #8b8d94;
+}
+.post-image-placeholder i {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.post-image-preview {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.visibility-options {
+    display: flex;
+    gap: 12px;
+}
+
+.visibility-option {
+    flex: 1;
+    cursor: pointer;
+}
+.visibility-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.visibility-option-content {
+    display: block;
+    padding: 14px;
+    border: 1px solid #2a2d35;
+    border-radius: 10px;
+    background-color: #16181d;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+.visibility-option input[type="radio"]:checked + .visibility-option-content {
+    border-color: var(--bs-primary);
+    background-color: rgba(217, 119, 6, 0.08);
+}
+.visibility-option-content i {
+    font-size: 1.2rem;
+    color: #8b8d94;
+    display: block;
+    margin-bottom: 6px;
+}
+.visibility-option input[type="radio"]:checked + .visibility-option-content i {
+    color: var(--bs-primary);
+}
+
+.visibility-option-label {
+    display: block;
+    font-weight: 600;
+    color: #e4e4e7;
+    font-size: 0.9rem;
+}
+
+.visibility-option-desc {
+    display: block;
+    color: #8b8d94;
+    font-size: 0.75rem;
+    margin-top: 2px;
+}
+
 .post-card {
     background-color: var(#1e2128);
     border: 1px solid #2a2d35;
@@ -272,6 +389,10 @@ body {
 }
 .post-menu-item-danger:hover {
     background-color: rgba(239, 68, 68, 0.1);
+}
+
+.post-delete-form {
+    width: 100%;
 }
 
 .post-username {

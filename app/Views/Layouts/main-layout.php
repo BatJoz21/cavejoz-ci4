@@ -28,6 +28,12 @@
         <?= $this->renderSection('main') ?>
     </main>
 
+    <?php if(empty($currentPath)): ?>
+        <a href="<?= base_url('/posts/create') ?>" class="fab-create-post" aria-label="Create Post">
+            <i class="bi bi-plus"></i>
+        </a>
+    <?php endif; ?>
+
     <?= $this->include('Layouts/scripts') ?>
 </body>
 </html>
