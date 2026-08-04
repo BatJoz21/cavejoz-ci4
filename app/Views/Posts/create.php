@@ -46,7 +46,7 @@
 
             <div class="form-group">
                 <label for="caption">Caption</label>
-                <textarea name="caption" id="caption" class="form-input form-textarea" maxlength="500"></textarea>
+                <textarea name="caption" id="caption" class="form-input form-textarea" maxlength="500"><?= old('caption') ?></textarea>
                 <span class="char-counter" id="captionCounter">500 characters remaining</span>
             </div>
 

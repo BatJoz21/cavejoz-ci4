@@ -99,14 +99,14 @@ function buildPostCardHtml(post) {
             </div>
 
             <div class="post-engagement">
-                <button class="post-action" id="likeBtn">
-                    <i class="bi bi-heart"></i>
-                    <span class="post-action-count">12</span>
+                <button class="post-action post-like-btn ${post.liked_by_me ? 'liked' : ''}" data-post-id="${post.id}">
+                    <i class="bi ${post.liked_by_me ? 'bi-heart-fill' : 'bi-heart'}"></i>
+                    <span class="post-action-count">${post.like_count}</span>
                 </button>
-                <button class="post-action">
+                <a href="${openCommentSectionUrl}" class="post-action">
                     <i class="bi bi-chat"></i>
                     <span class="post-action-count">3</span>
-                </button>
+                </a>
             </div>
         </div>
     `;

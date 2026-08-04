@@ -12,12 +12,14 @@ class Users extends BaseController
     private UserApiService $api;
     private PostApiService $postApi;
     private FriendshipApiService $friendshipApi;
+    private Likes $like;
 
     public function __construct()
     {
         $this->api = new UserApiService();
         $this->postApi = new PostApiService();
         $this->friendshipApi = new FriendshipApiService();
+        $this->like = new Likes();
     }
 
     public function openMyProfile()
@@ -41,9 +43,17 @@ class Users extends BaseController
                              ->with('error', 'Failed to get post data: ' . $responsePost['message']);
         }
 
+        // Get post's like data
+        $posts = $responsePost['data'] ?? [];
+        foreach($posts as &$post) {
+            $post['liked_by_me'] = $this->like->isUserLikedThisPost($post['id']);
+            $post['like_count'] = $this->like->getTotalLikesOfThisPost($post['id']);
+        }
+        unset($post);
+
         return view('Users/profile', [
             'data'  => $data,
-            'posts' => $responsePost['data']
+            'posts' => $posts
         ]);
     }
 
@@ -74,10 +84,18 @@ class Users extends BaseController
             return redirect()->to('/')
                              ->with('error', 'Failed to get post data: ' . $responsePost['message']);
         }
+
+        // Get post's like data
+        $posts = $responsePost['data'] ?? [];
+        foreach($posts as &$post) {
+            $post['liked_by_me'] = $this->like->isUserLikedThisPost($post['id']);
+            $post['like_count'] = $this->like->getTotalLikesOfThisPost($post['id']);
+        }
+        unset($post);
         
         return view('Users/profile', [
             'data'  => $data,
-            'posts' => $responsePost['data']
+            'posts' => $posts
         ]);
     }
 
@@ -98,6 +116,7 @@ class Users extends BaseController
 
     public function edit()
     {
+        // Call the API and handle it's response
         $response = $this->api->getMyProfile();
         if(!$response['success']) {
             return redirect()->to('/profile')

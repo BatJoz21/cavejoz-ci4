@@ -28,7 +28,7 @@
             <div class="friends-list">
                 <?php foreach($users as $user): ?>
                     <div class="friend-item">
-                        <img src="<?= base_url('/avatar/' . $user['avatar_url']) ?>" alt="" class="friend-avatar">
+                        <img src="<?= base_url('/avatar/' . ($user['avatar_url'] ?? 'default')) ?>" alt="" class="friend-avatar">
                         <div class="friend-info">
                             <span class="friend-username"><?= esc($user['username']) ?></span>
                             <span class="friend-fullname"><?= esc($user['full_name']) ?></span>

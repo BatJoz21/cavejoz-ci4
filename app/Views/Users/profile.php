@@ -13,7 +13,7 @@
         </script>
 
         <div class="profile-header">
-            <img src="<?= base_url('/avatar/' . $data['avatar_url']) ?>" alt="" class="profile-avatar">
+            <img src="<?= base_url('/avatar/' . ($data['avatar_url'] ?? 'default')) ?>" alt="" class="profile-avatar">
 
             <div class="profile-info">
                 <div class="profile-info-top">
@@ -43,9 +43,13 @@
         <?php if(!empty($posts)): ?>
             <div class="postList" id="postList">
                 <?php foreach($posts as $post): ?>
+                    <script>
+                        const openCommentSectionUrl = <?= json_encode(base_url('/posts/' . $post['id'] . '/comments')) ?>
+                    </script>
+
                     <div class="post-card">
                         <div class="post-header">
-                            <img src="<?= base_url('/avatar/' . $data['avatar_url']) ?>" alt="" class="post-avatar">
+                            <img src="<?= base_url('/avatar/' . ($data['avatar_url'] ?? 'default')) ?>" alt="" class="post-avatar">
                             <div class="post-header-info">
                                 <span class="post-username"><?= esc($data['username']) ?></span>
                                 <span class="post-timestamp"><?= date('d M Y', strtotime($post['created_at'])) ?></span>
@@ -77,14 +81,14 @@
                         </div>
 
                         <div class="post-engagement">
-                            <button class="post-action" id="likeBtn">
-                                <i class="bi bi-heart"></i>
-                                <span class="post-action-count">12</span>
+                            <button class="post-action post-like-btn <?= $post['liked_by_me'] ? 'liked' : '' ?>" data-post-id="<?= $post['id'] ?>">
+                                <i class="bi <?= $post['liked_by_me'] ? 'bi-heart-fill' : 'bi-heart' ?>"></i>
+                                <span class="post-action-count"><?= esc($post['like_count']) ?></span>
                             </button>
-                            <button class="post-action">
+                            <a href="<?= base_url('/posts/' . $post['id'] . '/comments') ?>" class="post-action">
                                 <i class="bi bi-chat"></i>
                                 <span class="post-action-count">3</span>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 <?php endforeach; ?>

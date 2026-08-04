@@ -8,10 +8,12 @@ use App\Service\PostApiService;
 class Posts extends BaseController
 {
     private PostApiService $api;
+    private Likes $like;
 
     public function __construct()
     {
         $this->api = new PostApiService();
+        $this->like = new Likes();
     }
 
     public function new()
@@ -32,8 +34,10 @@ class Posts extends BaseController
                              ->withInput();
         }
 
+        // Get uploaded file
         $content = $this->request->getFile('content');
 
+        // Call API and handle it's response
         $response = $this->api->createNewPost([
             'visibility'    => $this->request->getPost('visibility'),
             'caption'       => $this->request->getPost('caption')
@@ -65,6 +69,7 @@ class Posts extends BaseController
 
     public function edit(int $postID)
     {
+        // Call the API and handle it's response
         $response = $this->api->getPostByID($postID);
         if(!$response['success']) {
             return redirect()->back()
@@ -77,8 +82,10 @@ class Posts extends BaseController
 
     public function update(int $postID)
     {
+        // Get uploaded file
         $content = $this->request->getFile('content');
 
+        // Call the API and handle it's response
         $response = $this->api->updatePost([
             'id'            => $postID,
             'visibility'    => $this->request->getPost('visibility'),
@@ -96,6 +103,7 @@ class Posts extends BaseController
 
     public function delete(int $postID)
     {
+        // Call the API and handle it's response
         $response = $this->api->deletePost($postID);
         if(!$response['success']) {
             return redirect()->back()
@@ -109,6 +117,7 @@ class Posts extends BaseController
 
     public function loadMorePosts(int $id, int $page)
     {
+        // Call the API
         $response = $this->api->getUserPosts($id, $page);
         if(!$response['success']) {
             return $this->response->setStatusCode(500)->setJSON([
@@ -117,9 +126,18 @@ class Posts extends BaseController
             ]);
         }
 
+        // Get post's like data
+        $posts = $responsePost['data'] ?? [];
+        foreach($posts as &$post) {
+            $post['liked_by_me'] = $this->like->isUserLikedThisPost($post['id']);
+            $post['like_count'] = $this->like->getTotalLikesOfThisPost($post['id']);
+        }
+        unset($post);
+
+        // return data as JSON
         return $this->response->setJSON([
             'success'   => true,
-            'posts'     => $response['data']
+            'posts'     => $posts
         ]);
     }
 }

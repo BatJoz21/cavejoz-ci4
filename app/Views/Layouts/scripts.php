@@ -7,3 +7,4 @@
 <script src="<?= base_url('js/utils.js') ?>"></script>
 <script src="<?= base_url('js/form.js') ?>"></script>
 <script src="<?= base_url('js/content-image-upload.js') ?>"></script>
+<script src="<?= base_url('js/like.js') ?>"></script>
