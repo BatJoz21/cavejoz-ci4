@@ -50,16 +50,10 @@ class Likes extends BaseController
 
     public function isUserLikedThisPost(int $postID)
     {
-        $result = $this->model->select('COUNT(*) as count')
-                              ->where('user_id', session('uID'))
+        $result = $this->model->where('user_id', session('user')['id'])
                               ->where('post_id', $postID)
-                              ->find();
+                              ->countAllResults() > 0;
         
-        $count = (int) $result[0]['count'];
-        if($count > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $result;
     }
 }

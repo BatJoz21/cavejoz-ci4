@@ -10,14 +10,14 @@ use App\Service\UserApiService;
 class Users extends BaseController
 {
     private UserApiService $api;
-    private PostApiService $postApi;
+    private Posts $post;
     private FriendshipApiService $friendshipApi;
     private Likes $like;
 
     public function __construct()
     {
         $this->api = new UserApiService();
-        $this->postApi = new PostApiService();
+        $this->post = new Posts();
         $this->friendshipApi = new FriendshipApiService();
         $this->like = new Likes();
     }
@@ -33,23 +33,11 @@ class Users extends BaseController
         $data = $response['data'];
         
         // Call the API to get total post and friend data
-        $data['total_post'] = $this->postApi->getTotalPostByUId($data['id'])['data'] ?? 0;
+        $data['total_post'] = $this->post->getTotalPostOfUser($data['id']);
         $data['total_friend'] = $this->friendshipApi->getTotalFriendByUId($data['id'])['data'] ?? 0;
 
-        // Call the API to get user's posts
-        $responsePost = $this->postApi->getUserPosts($data['id']);
-        if(!$responsePost['success']) {
-            return redirect()->to('/')
-                             ->with('error', 'Failed to get post data: ' . $responsePost['message']);
-        }
-
-        // Get post's like data
-        $posts = $responsePost['data'] ?? [];
-        foreach($posts as &$post) {
-            $post['liked_by_me'] = $this->like->isUserLikedThisPost($post['id']);
-            $post['like_count'] = $this->like->getTotalLikesOfThisPost($post['id']);
-        }
-        unset($post);
+        // Call the method to get user's posts
+        $posts = $this->post->loadPostsDataForPostCard($data['id']);
 
         return view('Users/profile', [
             'data'  => $data,
@@ -67,10 +55,6 @@ class Users extends BaseController
         }
         $data = $response['data'];
 
-        // Call the API to get total post and friend data
-        $data['total_post'] = $this->postApi->getTotalPostByUId($data['id'])['data'] ?? 0;
-        $data['total_friend'] = $this->friendshipApi->getTotalFriendByUId($data['id'])['data'] ?? 0;
-
         // Call the API to get friendship status with logged in user
         $data['friendship_status'] = $this->friendshipApi->getFriendshipStatus($data['id'])['data'] ?? '';
         if($data['friendship_status'] === 'blocked') {
@@ -78,20 +62,12 @@ class Users extends BaseController
                              ->with('error', "Unable to open this user's profile");
         }
 
-        // Call the API to get user's posts
-        $responsePost = $this->postApi->getUserPosts($data['id']);
-        if(!$responsePost['success']) {
-            return redirect()->to('/')
-                             ->with('error', 'Failed to get post data: ' . $responsePost['message']);
-        }
+        // Call the API to get total post and friend data
+        $data['total_post'] = $this->post->getTotalPostOfUser($data['id']);
+        $data['total_friend'] = $this->friendshipApi->getTotalFriendByUId($data['id'])['data'] ?? 0;
 
-        // Get post's like data
-        $posts = $responsePost['data'] ?? [];
-        foreach($posts as &$post) {
-            $post['liked_by_me'] = $this->like->isUserLikedThisPost($post['id']);
-            $post['like_count'] = $this->like->getTotalLikesOfThisPost($post['id']);
-        }
-        unset($post);
+        // Call the method to get user's posts
+        $posts = $this->post->loadPostsDataForPostCard($data['id']);
         
         return view('Users/profile', [
             'data'  => $data,

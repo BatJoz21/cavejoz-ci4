@@ -9,11 +9,13 @@ class Posts extends BaseController
 {
     private PostApiService $api;
     private Likes $like;
+    private Comments $comment;
 
     public function __construct()
     {
         $this->api = new PostApiService();
         $this->like = new Likes();
+        $this->comment = new Comments();
     }
 
     public function new()
@@ -52,6 +54,39 @@ class Posts extends BaseController
                          ->with('message', $response['data']['message']);
     }
 
+    public function view(int $postID)
+    {
+        // Get requested page number
+        $currentPage = $this->request->getGet('page') ?? '1';
+
+        // Call the API to get user's posts
+        $responsePost = $this->api->getPostByID($postID);
+        if(!$responsePost['success']) {
+            return redirect()->to('/')
+                             ->with('error', 'Failed to get post data: ' . $responsePost['message']);
+        }
+
+        // Get post's like and comments data
+        $post = $responsePost['data'] ?? [];
+        $postComments = [];
+        if(!empty($post)) {
+            $post['liked_by_me'] = $this->like->isUserLikedThisPost($post['id']);
+            $post['like_count'] = $this->like->getTotalLikesOfThisPost($post['id']);
+            $post['comment_count'] = $this->comment->getTotalCommentOfPost($post['id']);
+
+            $postComments = $this->comment->getAllCommentsOfAPost($post['id'], $currentPage);
+        }
+
+        $totalPage = ceil($postComments['total'] / 10);
+
+        return view('Comments/index', [
+            'post'          => $post,
+            'comments'      => $postComments['comments'],
+            'currentPage'   => (int) $currentPage,
+            'totalPage'     => $totalPage
+        ]);
+    }
+
     public function getPostContentImage(string $filename)
     {
         // Call the API to get the content image
@@ -65,6 +100,37 @@ class Posts extends BaseController
                               ->setHeader('Content-Type', $response->getHeaderLine('Content-Type'))
                               ->setHeader('Content-Length', strlen($body))
                               ->setBody($body);
+    }
+
+    public function getTotalPostOfUser(int $uID)
+    {
+        $response = $this->api->getTotalPostByUId($uID);
+        if(!$response['success']) {
+            return 0;
+        }
+
+        return $response['data'];
+    }
+
+    public function loadPostsDataForPostCard(int $id)
+    {
+        // Call the API to get user's posts
+        $responsePost = $this->api->getUserPosts($id);
+        if(!$responsePost['success']) {
+            return redirect()->to('/')
+                             ->with('error', 'Failed to get post data: ' . $responsePost['message']);
+        }
+
+        // Get post's like and comments data
+        $posts = $responsePost['data'] ?? [];
+        foreach($posts as &$post) {
+            $post['liked_by_me'] = $this->like->isUserLikedThisPost($post['id']);
+            $post['like_count'] = $this->like->getTotalLikesOfThisPost($post['id']);
+            $post['comment_count'] = $this->comment->getTotalCommentOfPost($post['id']);
+        }
+        unset($post);
+
+        return $posts;
     }
 
     public function edit(int $postID)
@@ -131,6 +197,7 @@ class Posts extends BaseController
         foreach($posts as &$post) {
             $post['liked_by_me'] = $this->like->isUserLikedThisPost($post['id']);
             $post['like_count'] = $this->like->getTotalLikesOfThisPost($post['id']);
+            $post['comment_count'] = $this->comment->getTotalCommentOfPost($post['id']);
         }
         unset($post);
 

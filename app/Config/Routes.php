@@ -36,6 +36,10 @@ $routes->group('/', ['filter' => 'jwtauth'], function($routes) {
     $routes->post('/posts/(:num)/delete', 'Posts::delete/$1');
 
     $routes->post('/posts/(:num)/like', 'Likes::toggleLikeOnPost/$1');
+    $routes->get('/posts/(:num)/like', 'Likes::isUserLikedThisPost/$1');
+
+    $routes->get('/posts/(:num)/comments', 'Posts::view/$1');
+    $routes->post('/posts/(:num)/comments', 'Comments::create/$1');
 
     $routes->get('users/(:num)/posts/(:num)', 'Posts::loadMorePosts/$1/$2');
     $routes->get('content/image/(:segment)', 'Posts::getPostContentImage/$1');

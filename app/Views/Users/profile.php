@@ -87,7 +87,7 @@
                             </button>
                             <a href="<?= base_url('/posts/' . $post['id'] . '/comments') ?>" class="post-action">
                                 <i class="bi bi-chat"></i>
-                                <span class="post-action-count">3</span>
+                                <span class="post-action-count"><?= $post['comment_count'] ?></span>
                             </a>
                         </div>
                     </div>
