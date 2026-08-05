@@ -347,3 +347,26 @@ body {
     font-size: 0.9rem;
     line-height: 1.5;
 }
+
+.comment-empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: #8b8d94;
+}
+.comment-empty-state i {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    display: block;
+    color: #8b8d94;
+}
+
+.comment-empty-title {
+    color: #e4e4e7;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.comment-empty-subtitle {
+    font-size: 0.875rem;
+}

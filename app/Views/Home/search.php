@@ -29,6 +29,24 @@
                     </div>
                 </a>
             <?php endforeach; ?>
+
+            <?php if(!empty($currentPage) && !empty($totalPage)): ?>
+                <div class="pagination">
+                    <a href="<?= base_url('/search?pageSearchInput=' . $search . '&page=1') ?>" class="pagination-btn <?= ($currentPage == 1) ? 'disabled' : '' ?>">
+                        <i class="bi bi-chevron-double-left"></i>
+                    </a>
+
+                    <?php for($i = 1; $i <= $totalPage; $i++): ?>
+                        <a href="<?= base_url('/search?pageSearchInput=' . $search . '&page=' . $i) ?>" class="pagination-btn <?= ($currentPage == $i) ? 'disabled' : '' ?>">
+                            <?= $i ?>
+                        </a>
+                    <?php endfor; ?>
+
+                    <a href="<?= base_url('/search?pageSearchInput=' . $search . '&page=' . $totalPage) ?>" class="pagination-btn <?= ($currentPage == $totalPage) ? 'disabled' : '' ?>">
+                        <i class="bi bi-chevron-double-right"></i>
+                    </a>
+                </div>
+            <?php endif; ?>
         <?php else: ?>
             <div class="search-empty-state">
                 <i class="bi bi-search"></i>

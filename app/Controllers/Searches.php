@@ -20,16 +20,30 @@ class Searches extends BaseController
         $search = $this->request->getGet('pageSearchInput');
         $searchResults = [];
 
+        // Get current page
+        $page = $this->request->getGet('page') ?? '1';
+        $page = (int) $page;
+        $totalPage = 1;
+        $resultPerPage = 10;
+
         if(!empty($search)) {
+            // Get total search result and count pagination
+            $totalData = $this->userModel->like('username', $search)
+                                         ->countAllResults();
+            $totalPage = ceil($totalData / $resultPerPage);
+            $offset = $resultPerPage * ($page - 1);
+
             // Get data from database
             $searchResults = $this->userModel->select('id, username, full_name, avatar_url')
                                              ->like('username', $search)
-                                             ->findAll();
+                                             ->findAll($resultPerPage, $offset);
         }
 
         return view('Home/search', [
             'search'        => $search,
-            'searchResults' => $searchResults
+            'searchResults' => $searchResults,
+            'currentPage'   => $page,
+            'totalPage'     => $totalPage
         ]);
     }
 }
