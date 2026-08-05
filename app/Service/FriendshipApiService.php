@@ -24,28 +24,28 @@ class FriendshipApiService extends BaseApiService
         });
     }
 
-    public function getPendingFriendList()
+    public function getPendingFriendList(int $page)
     {
-        return $this->handleRequest(function() {
-            return $this->client->get('/friends/pending' , [
+        return $this->handleRequest(function() use($page) {
+            return $this->client->get('/friends/pending?page=' . $page, [
                 'headers'   => $this->getHeader()
             ]);
         });
     }
 
-    public function getFriendsList()
+    public function getFriendsList(int $page)
     {
-        return $this->handleRequest(function() {
-            return $this->client->get('/friends', [
+        return $this->handleRequest(function() use($page) {
+            return $this->client->get('/friends?page=' . $page, [
                 'headers'   => $this->getHeader()
             ]);
         });
     }
 
-    public function getBlockedList()
+    public function getBlockedList(int $page)
     {
-        return $this->handleRequest(function() {
-            return $this->client->get('/block', [
+        return $this->handleRequest(function() use($page) {
+            return $this->client->get('/block?page=' . $page, [
                 'headers'   => $this->getHeader()
             ]);
         });

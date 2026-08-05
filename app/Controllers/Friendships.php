@@ -20,13 +20,16 @@ class Friendships extends BaseController
         $status = $this->request->getGet('status') ?? 'accepted';
         $response = [];
 
+        // Get page from query parameters
+        $page = $this->request->getGet('page') ?? '1';
+
         // Call the API based on $status
         if($status == 'accepted') {
-            $response = $this->api->getFriendsList();
+            $response = $this->api->getFriendsList($page);
         } elseif($status == 'pending') {
-            $response = $this->api->getPendingFriendList();
+            $response = $this->api->getPendingFriendList($page);
         } elseif($status == 'blocked') {
-            $response = $this->api->getBlockedList();
+            $response = $this->api->getBlockedList($page);
         }
 
         // Handle failed response
@@ -35,11 +38,15 @@ class Friendships extends BaseController
                                 ->with('error', $response['message']);
         }
         // Get response's data if success
-        $users = $response['data'];
+        $users = $response['data']['data'];
+
+        $totalPage = ceil($response['data']['total'] / 10);
 
         return view('Friendships/index', [
-            'status'    => $status,
-            'users'     => $users
+            'status'        => $status,
+            'users'         => $users,
+            'currentPage'   => $page,
+            'totalPage'     => $totalPage
         ]);
     }
 

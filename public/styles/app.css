@@ -292,6 +292,7 @@ body {
     padding: 10px 18px;
     border-radius: 8px;
     border: none;
+    align-self: center;
     background-color: var(--bs-primary);
     color: #16181d;
     font-weight: 700;

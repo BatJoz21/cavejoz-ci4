@@ -53,10 +53,11 @@
 
         <div class="comment-form-wrapper">
             <img src="<?= base_url('/avatar/' . ($post['avatar_url'] ?? 'default')) ?>" alt="" class="comment-form-avatar">
-            <?= form_open('/posts/' . $post['id'] . '/comments') ?>
+            <form method="post" action="<?= base_url('/posts/' . $post['id'] . '/comments') ?>" class="comment-form">
+                <?= csrf_field() ?>
                 <textarea name="content" id="content" class="comment-input" placeholder="Add a comment..." maxlength="500" required></textarea>
                 <button type="submit" class="btn-comment-submit">Post</button>
-            <?= form_close() ?>
+            </form>
         </div>
 
         <?php if(!empty($comments)): ?>
