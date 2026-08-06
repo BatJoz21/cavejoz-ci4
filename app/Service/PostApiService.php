@@ -33,6 +33,15 @@ class PostApiService extends BaseApiService
         });
     }
 
+    public function getFeeds(int $page)
+    {
+        return $this->handleRequest(function() use($page) {
+            return $this->client->get('/feeds?page=' . $page, [
+                'headers'   => $this->getHeader()
+            ]);
+        });
+    }
+
     public function getUserPosts(int $id, int $page=1)
     {
         return $this->handleRequest(function() use($id, $page) {

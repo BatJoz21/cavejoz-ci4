@@ -54,6 +54,30 @@ class Posts extends BaseController
                          ->with('message', $response['data']['message']);
     }
 
+    public function feeds()
+    {
+        // Get current page
+        $page = $this->request->getGet('page') ?? '1';
+
+        // Call the API method
+        $response = $this->api->getFeeds($page);
+        if(!$response['success']) {
+            return redirect()->to('/')
+                             ->with('error', 'Failed to get post data: ' . $response['message']);
+        }
+        
+        // Get post's like and comments data
+        $posts = $response['data'] ?? [];
+        foreach($posts as &$post) {
+            $post['liked_by_me'] = $this->like->isUserLikedThisPost($post['id']);
+            $post['like_count'] = $this->like->getTotalLikesOfThisPost($post['id']);
+            $post['comment_count'] = $this->comment->getTotalCommentOfPost($post['id']);
+        }
+        unset($post);
+
+        return view('Home/index', ['posts' => $posts]);
+    }
+
     public function view(int $postID)
     {
         // Get requested page number
@@ -179,6 +203,33 @@ class Posts extends BaseController
 
         return redirect()->to('/profile')
                          ->with('message', $response['data']['message']);
+    }
+
+    public function loadMorePostsForFeed(int $page)
+    {
+        // Call the API method
+        $response = $this->api->getFeeds($page);
+        if(!$response['success']) {
+            return $this->response->setStatusCode(500)->setJSON([
+                'success'   => false,
+                'message'   => $response['message']
+            ]);
+        }
+        
+        // Get post's like and comments data
+        $posts = $response['data'] ?? [];
+        foreach($posts as &$post) {
+            $post['liked_by_me'] = $this->like->isUserLikedThisPost($post['id']);
+            $post['like_count'] = $this->like->getTotalLikesOfThisPost($post['id']);
+            $post['comment_count'] = $this->comment->getTotalCommentOfPost($post['id']);
+        }
+        unset($post);
+
+        // return data as JSON
+        return $this->response->setJSON([
+            'success'   => true,
+            'posts'     => $posts
+        ]);
     }
 
     public function loadMorePosts(int $id, int $page)

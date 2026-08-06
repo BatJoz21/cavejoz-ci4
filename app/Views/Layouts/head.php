@@ -15,4 +15,5 @@
     <link rel="stylesheet" href="<?= base_url('styles/profile.css') ?>">
     <link rel="stylesheet" href="<?= base_url('styles/friendship.css') ?>">
     <link rel="stylesheet" href="<?= base_url('styles/post.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('styles/comment.css') ?>">
 </head>

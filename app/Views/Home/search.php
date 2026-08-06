@@ -48,9 +48,9 @@
                 </div>
             <?php endif; ?>
         <?php else: ?>
-            <div class="search-empty-state">
+            <div class="empty-state">
                 <i class="bi bi-search"></i>
-                <p>Search people on CaveJoz...</p>
+                <p class="empty-title">Search people on CaveJoz...</p>
             </div>
         <?php endif; ?>
     </div>

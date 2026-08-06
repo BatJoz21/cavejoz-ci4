@@ -55,3 +55,8 @@
     </div>
 
 <?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
+    <script src="<?= base_url('js/content-image-upload.js') ?>"></script>
+    <script src="<?= base_url('js/caption-text-counter.js') ?>"></script>
+<?= $this->endSection() ?>

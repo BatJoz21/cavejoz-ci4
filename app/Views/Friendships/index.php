@@ -14,6 +14,9 @@
         if($status === 'pending') {
             $message1 = 'No friend requests yet';
             $message2 = "When you have friend requests, they'll show up here.";
+        } elseif($status === 'blocked') {
+            $message1 = 'No blocked user yet';
+            $message2 = "When you have blocked a user, they'll show up here.";
         }
     ?>
 
@@ -89,10 +92,10 @@
                 </div>
             <?php endif; ?>
         <?php else: ?>
-            <div class="friend-empty-state">
+            <div class="empty-state">
                 <i class="bi bi-people"></i>
-                <p class="friend-empty-title"><?= $message1 ?></p>
-                <p class="friend-empty-subtitle"><?= $message2 ?></p>
+                <p class="empty-title"><?= $message1 ?></p>
+                <p class="empty-subtitle"><?= $message2 ?></p>
                 <?php if($status === 'accepted'): ?>
                     <a href="<?= base_url('/search') ?>" class="btn-empty-cta">Search for people</a>
                 <?php endif; ?>

@@ -35,5 +35,7 @@
     <?php endif; ?>
 
     <?= $this->include('Layouts/scripts') ?>
+    
+    <?= $this->renderSection('script') ?>
 </body>
 </html>

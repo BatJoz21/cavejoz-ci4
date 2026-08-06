@@ -96,14 +96,3 @@
     color: #8b8d94;
     font-size: 0.85rem;
 }
-
-.search-empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: #8d8d94;
-}
-.search-empty-state i {
-    font-size: 2.5rem;
-    margin-bottom: 12px;
-    display: block;
-}

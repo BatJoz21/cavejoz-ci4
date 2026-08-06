@@ -12,3 +12,54 @@ function formatPostDate(dateString) {
 
     return `${day} ${month} ${year}`;
 }
+
+function buildPostCardHtml(post) {
+    return `
+        <div class="post-card" data-post-id="${post.id}">
+            <div class="post-header">
+                <img src="${BASE_URL}/avatar/${post.avatar_url}" alt="" class="post-avatar">
+                <div class="post-header-info">
+                    <span class="post-username">${post.username}</span>
+                    <span class="post-timestamp">${formatPostDate(post.created_at)}</span>
+                </div>
+
+                ${buildPostCardMenuHtml(post)}
+            </div>
+
+            <div class="post-content">
+                <p class="post-text">${escapeHtml(post.caption)}</p>
+                <img src="${contentImageBaseUrl}${post.content_url}" alt="" class="post-image">
+            </div>
+
+            <div class="post-engagement">
+                <button class="post-action post-like-btn ${post.liked_by_me ? 'liked' : ''}" data-post-id="${post.id}">
+                    <i class="bi ${post.liked_by_me ? 'bi-heart-fill' : 'bi-heart'}"></i>
+                    <span class="post-action-count">${post.like_count}</span>
+                </button>
+                <a href="${BASE_URL}/posts/${post.id}/comments" class="post-action">
+                    <i class="bi bi-chat"></i>
+                    <span class="post-action-count">3</span>
+                </a>
+            </div>
+        </div>
+    `;
+}
+
+function buildPostCardMenuHtml(post) {
+    if(post.user_id != currentUID) return '';
+
+    return `
+    <div class="post-menu">
+        <button class="post-menu-trigger" aria-label="Post options">
+            <i class="bi bi-three-dots-vertical"></i>
+        </button>
+        <div class="post-menu-dropdown">
+            <a href="<?= base_url('/post/' . $post['id'] . '/edit') ?>" class="post-menu-item">
+                <i class="bi bi-pencil-square"></i> Edit
+            </a>
+            <a href="<?= base_url('/post/' . $post['id'] . '/delete') ?>" class="post-menu-item post-menu-item-danger">
+                <i class="bi bi-trash"></i> Delete
+            </a>
+        </div>
+    </div>`;
+}

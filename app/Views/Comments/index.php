@@ -94,10 +94,10 @@
                 </div>
             <?php endif; ?>
         <?php else: ?>
-            <div class="comment-empty-state">
+            <div class="empty-state">
                 <i class="bi bi-chat-dots"></i>
-                <p class="comment-empty-title">No comment</p>
-                <p class="comment-empty-subtitle">Be the first to say something.</p>
+                <p class="empty-title">No comment</p>
+                <p class="empty-subtitle">Be the first to say something.</p>
             </div>
         <?php endif; ?>
     </div>

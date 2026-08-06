@@ -48,3 +48,52 @@
 <?php endif; ?>
 
 <?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
+    <script>
+        // Profile bio text counter
+        const bioTextarea = document.getElementById('bio');
+        const bioCounter = document.getElementById('bioCounter');
+        const BIO_MAX_LENGTH = 150;
+
+        if(bioTextarea && bioCounter) {
+            const updateCounter = () => {
+                const remaining = BIO_MAX_LENGTH - bioTextarea.value.length;
+                if(remaining > 1) {
+                    bioCounter.textContent = `${remaining} characters remaining`;
+                } else {
+                    bioCounter.textContent = `${remaining} character remaining`;
+                }
+                bioCounter.style.color = remaining <= 10 ? 'var(--cave-danger)' : '#8b8d94';
+            };
+
+            updateCounter();
+
+            bioTextarea.addEventListener('input', updateCounter);
+        }
+    </script>
+    <script src="<?= base_url('js/avatar-upload.js') ?>"></script>
+    <script>
+        // Live preview for edit profile
+        if(avatarTrigger && avatarInput && avatarFileName && avatarPreview) {
+            avatarTrigger.addEventListener('click', () => {
+                avatarInput.click();
+            });
+
+            avatarInput.addEventListener('change', () => {
+                if(avatarInput.files.length > 0) {
+                    const file = avatarInput.files[0];
+                    avatarFileName.textContent = file.name;
+
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        avatarPreview.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        } else {
+            avatarFileName.textContent = 'No new file chosen';
+        }
+    </script>
+<?= $this->endSection() ?>

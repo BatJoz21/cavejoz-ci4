@@ -6,9 +6,10 @@
 
     <?php if(!empty($data)): ?>
         <script>
+            const BASE_URL = <?= json_encode(rtrim(base_url(), '/')) ?>;
+            const currentUID = <?= json_encode(session('user')['id']) ?>;
+
             const profileUserId = <?= json_encode($data['id']) ?>;
-            const profileUsername = <?= json_encode($data['username']) ?>;
-            const profileAvatarUrl = <?= json_encode(base_url('/avatar/' . $data['avatar_url'])) ?>;
             const contentImageBaseUrl = <?= json_encode(base_url('/content/image/')) ?>;
         </script>
 
@@ -43,15 +44,11 @@
         <?php if(!empty($posts)): ?>
             <div class="postList" id="postList">
                 <?php foreach($posts as $post): ?>
-                    <script>
-                        const openCommentSectionUrl = <?= json_encode(base_url('/posts/' . $post['id'] . '/comments')) ?>
-                    </script>
-
                     <div class="post-card">
                         <div class="post-header">
-                            <img src="<?= base_url('/avatar/' . ($data['avatar_url'] ?? 'default')) ?>" alt="" class="post-avatar">
+                            <img src="<?= base_url('/avatar/' . ($post['avatar_url'] ?? 'default')) ?>" alt="" class="post-avatar">
                             <div class="post-header-info">
-                                <span class="post-username"><?= esc($data['username']) ?></span>
+                                <span class="post-username"><?= esc($post['username']) ?></span>
                                 <span class="post-timestamp"><?= date('d M Y', strtotime($post['created_at'])) ?></span>
                             </div>
 
@@ -109,4 +106,53 @@
         <?php endif; ?>
     <?php endif; ?>
 
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
+    <script>
+        // Load more post
+        const POSTS_PER_PAGE = 5;
+
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const loadMoreWrapper = document.getElementById('loadMoreWrapper');
+        const postList = document.getElementById('postList');
+
+        let currentPage = 1;
+
+        if(loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', async () => {
+                loadMoreBtn.disabled = true;
+                loadMoreBtn.textContent = 'Loading...'
+
+                try {
+                    currentPage++;
+
+                    const response = await fetch(`/users/${profileUserId}/posts/${currentPage}`);
+                    const data = await response.json();
+
+                    if(!data.success) {
+                        loadMoreBtn.disabled = false;
+                        loadMoreBtn.textContent = 'Load More';
+                        return;
+                    }
+
+                    const posts = data.posts || [];
+
+                    posts.forEach(post => {
+                        postList.insertAdjacentHTML('beforeend', buildPostCardHtml(post));
+                    });
+
+                    if(posts.length < POSTS_PER_PAGE) {
+                        loadMoreWrapper.remove();
+                    } else {
+                        loadMoreBtn.disabled = false;
+                        loadMoreBtn.textContent = 'Load More';
+                    }
+                } catch(error) {
+                    loadMoreBtn.disabled = false;
+                    loadMoreBtn.textContent = 'Load More';
+                }
+            });
+        }
+    </script>
 <?= $this->endSection() ?>

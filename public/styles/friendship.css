@@ -107,25 +107,3 @@
     background-color: var(--cave-danger);
     color: #16181d;
 }
-
-.friend-empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: #8b8d94;
-}
-.friend-empty-state i {
-    font-size: 2.5rem;
-    margin-bottom: 12px;
-    display: block;
-    color: #8b8d94;
-}
-
-.friend-empty-title {
-    color: #e4e4e7;
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-.friend-empty-subtitle {
-    font-size: 0.875rem;
-}

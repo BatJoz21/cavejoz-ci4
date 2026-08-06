@@ -17,25 +17,3 @@ if (avatarTrigger && avatarInput && avatarFileName) {
         }
     });
 }
-
-// Live preview for edit profile
-if(avatarTrigger && avatarInput && avatarFileName && avatarPreview) {
-    avatarTrigger.addEventListener('click', () => {
-        avatarInput.click();
-    });
-
-    avatarInput.addEventListener('change', () => {
-        if(avatarInput.files.length > 0) {
-            const file = avatarInput.files[0];
-            avatarFileName.textContent = file.name;
-
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                avatarPreview.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-} else {
-    avatarFileName.textContent = 'No new file chosen';
-}
