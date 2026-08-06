@@ -85,8 +85,6 @@
                             <a href="<?= base_url('/friends?status=' . $status . '&page=' . $i) ?>" class="pagination-btn <?= ($currentPage == $i) ? 'disabled' : '' ?>">
                                 <?= $i ?>
                             </a>
-                        <?php else: ?>
-                            <a href="<?= base_url('/friends?status=' . $status . '&page=' . $i) ?>" class="pagination-btn <?= ($currentPage == $i) ? 'disabled' : '' ?>">...</a>
                         <?php endif; ?>
                     <?php endfor; ?>
 

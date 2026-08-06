@@ -95,8 +95,6 @@
                             <a href="<?= base_url('/posts/' . $post['id'] . '/comments?page=' . $i) ?>" class="pagination-btn <?= ($currentPage == $i) ? 'disabled' : '' ?>">
                                 <?= $i ?>
                             </a>
-                        <?php else: ?>
-                            <a href="<?= base_url('/posts/' . $post['id'] . '/comments?page=' . $totalPage) ?>" class="pagination-btn <?= ($currentPage == $i) ? 'disabled' : '' ?>">...</a>
                         <?php endif; ?>
                     <?php endfor; ?>
 

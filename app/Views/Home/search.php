@@ -38,11 +38,9 @@
 
                     <?php for($i = 1; $i <= $totalPage; $i++): ?>
                         <?php if($i == $currentPage - 1 || $i == $currentPage || $i == $currentPage + 1): ?>
-                            <a href="<?= base_url('/friends?status=' . $status . '&page=' . $i) ?>" class="pagination-btn <?= ($currentPage == $i) ? 'disabled' : '' ?>">
+                            <a href="<?= base_url('/search?pageSearchInput=' . $search . '&page=' . $i) ?>" class="pagination-btn <?= ($currentPage == $i) ? 'disabled' : '' ?>">
                                 <?= $i ?>
                             </a>
-                        <?php else: ?>
-                            <a href="<?= base_url('/friends?status=' . $status . '&page=' . $i) ?>" class="pagination-btn <?= ($currentPage == $i) ? 'disabled' : '' ?>">...</a>
                         <?php endif; ?>
                     <?php endfor; ?>
 
