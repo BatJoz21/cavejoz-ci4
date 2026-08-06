@@ -184,7 +184,7 @@
     background-color: rgba(239, 68, 68, 0.1);
 }
 
-.post-delete-form {
+.post-menu-dropdown .confirm-delete-form {
     width: 100%;
 }
 
@@ -231,4 +231,10 @@
 }
 .post-action:hover {
     color: var(--bs-primary);
+}
+
+@media (max-height: 768px) {
+    .post-image {
+        height: 280px;
+    }
 }

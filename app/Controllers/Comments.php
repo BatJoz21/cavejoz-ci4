@@ -19,6 +19,7 @@ class Comments extends BaseController
 
     public function create(int $postID)
     {
+        // Call API and handle the response
         $response = $this->api->addNewComment($postID, $this->request->getPost('content'));
         if(!$response['success']) {
             return redirect()->back()
@@ -31,6 +32,7 @@ class Comments extends BaseController
 
     public function getAllCommentsOfAPost(int $postID, int $page)
     {
+        // Call API and handle the response
         $response = $this->api->getCommentsByPostID($postID, $page);
         if(!$response['success']) {
             return [];
@@ -41,9 +43,23 @@ class Comments extends BaseController
 
     public function getTotalCommentOfPost(int $postID)
     {
+        // Call API and handle the response
         $result = $this->model->where('post_id', $postID)
                               ->countAllResults();
 
         return $result;
+    }
+
+    public function deleteComment(int $postID, int $commentID)
+    {
+        // Call API and handle the response
+        $response = $this->api->deleteComment($postID, $commentID);
+        if(!$response['success']) {
+            return redirect()->back()
+                             ->with('error', $response['message']);
+        }
+
+        return redirect()->back()
+                         ->with('message', $response['data']['message']);
     }
 }

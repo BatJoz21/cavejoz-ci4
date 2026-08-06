@@ -72,6 +72,14 @@
                             </div>
                             <p class="comment-text"><?= esc($comment['content']) ?></p>
                         </div>
+                        <?php if($post['user_id'] == session('user')['id'] || $comment['user_id'] == session('user')['id']): ?>
+                            <form action="<?= base_url('/posts/' . $post['id'] . '/comments/' . $comment['id'] . '/delete') ?>" method="post" class="confirm-delete-form">
+                                <?= csrf_field() ?>
+                                <button type="submit" class="comment-delete-btn" aria-label="Delete comment">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -83,9 +91,13 @@
                     </a>
 
                     <?php for($i = 1; $i <= $totalPage; $i++): ?>
-                        <a href="<?= base_url('/posts/' . $post['id'] . '/comments?page=' . $i) ?>" class="pagination-btn <?= ($currentPage == $i) ? 'disabled' : '' ?>">
-                            <?= $i ?>
-                        </a>
+                        <?php if($i == $currentPage - 1 || $i == $currentPage || $i == $currentPage + 1): ?>
+                            <a href="<?= base_url('/posts/' . $post['id'] . '/comments?page=' . $i) ?>" class="pagination-btn <?= ($currentPage == $i) ? 'disabled' : '' ?>">
+                                <?= $i ?>
+                            </a>
+                        <?php else: ?>
+                            <a href="<?= base_url('/posts/' . $post['id'] . '/comments?page=' . $totalPage) ?>" class="pagination-btn <?= ($currentPage == $i) ? 'disabled' : '' ?>">...</a>
+                        <?php endif; ?>
                     <?php endfor; ?>
 
                     <a href="<?= base_url('/posts/' . $post['id'] . '/comments?page=' . $totalPage) ?>" class="pagination-btn <?= ($currentPage >= $totalPage) ? 'disabled' : '' ?>">

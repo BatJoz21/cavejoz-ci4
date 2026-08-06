@@ -22,4 +22,13 @@ class CommentApiService extends BaseApiService
             ]);
         });
     }
+
+    public function deleteComment(int $postID, int $commentID)
+    {
+        return $this->handleRequest(function() use($postID, $commentID) {
+            return $this->client->delete('/posts/' . $postID . '/comment/' . $commentID, [
+                'headers'   => $this->getHeader()
+            ]);
+        });
+    }
 }

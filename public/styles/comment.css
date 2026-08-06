@@ -104,3 +104,29 @@
     font-size: 0.9rem;
     line-height: 1.5;
 }
+
+.comment-delete-btn {
+    background: transparent;
+    border: none;
+    color: #8b8d94;
+    font-size: 0.95rem;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s, background-color 0.2s;
+}
+.comment-item:hover .comment-delete-btn {
+    opacity: 1;
+}
+.comment-delete-btn:hover {
+    color: var(--cave-danger);
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+@media (max-width: 768px) {
+    .comment-delete-btn {
+        opacity: 1;
+    }
+}

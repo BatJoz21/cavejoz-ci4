@@ -61,7 +61,7 @@
                                         <a href="<?= base_url('/posts/' . $post['id'] . '/edit') ?>" class="post-menu-item">
                                             <i class="bi bi-pencil-square"></i> Edit
                                         </a>
-                                        <form action="<?= base_url('/posts/' . $post['id'] . '/delete') ?>" method="post" class="post-delete-form">
+                                        <form action="<?= base_url('/posts/' . $post['id'] . '/delete') ?>" method="post" class="confirm-delete-form">
                                             <?= csrf_field() ?>
                                             <button type="submit" class="post-menu-item post-menu-item-danger">
                                                 <i class="bi bi-trash"></i> Delete

@@ -197,6 +197,12 @@
     transform: translateX(-100%);
 }
 
+@media (max-width: 768px) {
+    .cavejoz-sidebar {
+        z-index: 1025;
+    }
+}
+
 .sidebar-link {
     position: relative;
     display: flex;
@@ -236,4 +242,25 @@
 .sidebar-footer .sidebar-link:hover {
     background-color: rgba(239, 68, 68, 0.1);
     color: #ef4444;
+}
+
+.sidebar-backdrop {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .sidebar-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 1020;
+    }
+    .sidebar-backdrop.visible {
+        opacity: 1;
+        pointer-events: auto;
+    }
 }

@@ -61,6 +61,20 @@
     gap: 8px;
 }
 
+@media (max-width: 768px) {
+    .friend-item {
+        flex-wrap: wrap;
+    }
+
+    .friend-action {
+        width: 100%;
+        margin-top: 10px;
+    }
+    .friend-action button {
+        flex: 1;
+    }
+}
+
 .btn-friend-view {
     padding: 8px 14px;
     border-radius: 8px;

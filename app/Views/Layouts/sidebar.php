@@ -11,3 +11,5 @@
         </div>
     <?= form_close() ?>
 </aside>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
