@@ -43,6 +43,9 @@ $routes->group('/', ['filter' => 'jwtauth'], function($routes) {
     $routes->post('posts/(:num)/comments', 'Comments::create/$1');
     $routes->post('posts/(:num)/comments/(:num)/delete', 'Comments::deleteComment/$1/$2');
 
+    $routes->get('notifications', 'Notifications::index');
+    $routes->get('notifications/(:num)', 'Notifications::latestNotification/$1');
+
     $routes->get('feeds/posts/(:num)', 'Posts::loadMorePostsForFeed/$1');
     $routes->get('users/(:num)/posts/(:num)', 'Posts::loadMorePosts/$1/$2');
     $routes->get('content/image/(:segment)', 'Posts::getPostContentImage/$1');

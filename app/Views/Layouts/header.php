@@ -22,14 +22,17 @@
             </div>
 
             <div class="notification-list">
-                <!-- Loop through later, here is the item template -->
-                <a href="<?= base_url('') ?>" class="notification-item unread">
-                    <img src="#" alt="" class="notification-avatar">
-                    <div class="notification-body">
-                        <p class="notification-text"><strong>JohnDoe</strong> like your post</p>
-                        <span class="notification-time">2h ago</span>
-                    </div>
-                </a>
+                <?php if(!empty($notifications)): ?>
+                    <?php foreach($notifications as $notif): ?>
+                        <a href="<?= base_url('') ?>" class="notification-item unread">
+                            <img src="<?= base_url('/avatar/' . ($notif['avatar_url'] ?? 'default')) ?>" alt="" class="notification-avatar">
+                            <div class="notification-body">
+                                <p class="notification-text"><strong><?= $notif['username'] ?></strong> <?= $notif['preview'] ?></p>
+                                <span class="notification-time"><?= $notif['created_at'] ?></span>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
 
             <a href="<?= base_url('/notifications') ?>" class="notification-see-all">See all</a>

@@ -1,0 +1,41 @@
+.notifications-page {
+    max-width: 600;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+.notifications-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.notifications-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f0e6d8;
+}
+
+.notifications-page, .notification-item {
+    border-radius: 10px;
+    padding: 14px 16px;
+}
+
+.btn-mark-read {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid #2a2d35;
+    background: transparent;
+    color: #8b8d94;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 0.2s, color 0.2s;
+}
+.btn-mark-read:hover {
+    border-color: var(--bs-primary);
+    color: var(--bs-primary);
+}
