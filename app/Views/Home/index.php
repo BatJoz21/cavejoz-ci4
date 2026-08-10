@@ -6,7 +6,6 @@
 
     <div class="feed-page">
         <script>
-            const BASE_URL = <?= json_encode(rtrim(base_url(), '/')) ?>;
             const currentUID = <?= json_encode(session('user')['id']) ?>;
             const contentImageBaseUrl = <?= json_encode(base_url('/content/image/')) ?>;
         </script>

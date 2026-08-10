@@ -21,4 +21,22 @@ class NotificationApiService extends BaseApiService
             ]);
         });
     }
+
+    public function markAllNotificationRead()
+    {
+        return $this->handleRequest(function() {
+            return $this->client->put('/notifications/markAllRead', [
+                'headers'   => $this->getHeader()
+            ]);
+        });
+    }
+
+    public function markNotificationRead(int $notifID)
+    {
+        return $this->handleRequest(function() use($notifID) {
+            return $this->client->put('/notifications/' . $notifID, [
+                'headers'   => $this->getHeader()
+            ]);
+        });
+    }
 }

@@ -44,7 +44,9 @@ $routes->group('/', ['filter' => 'jwtauth'], function($routes) {
     $routes->post('posts/(:num)/comments/(:num)/delete', 'Comments::deleteComment/$1/$2');
 
     $routes->get('notifications', 'Notifications::index');
-    $routes->get('notifications/(:num)', 'Notifications::latestNotification/$1');
+    $routes->get('notifications/latest', 'Notifications::latestNotification');
+    $routes->patch('notifications/mark-all-read', 'Notifications::markAllRead');
+    $routes->get('notifications/(:num)/visit', 'Notifications::markReadNotification/$1');
 
     $routes->get('feeds/posts/(:num)', 'Posts::loadMorePostsForFeed/$1');
     $routes->get('users/(:num)/posts/(:num)', 'Posts::loadMorePosts/$1/$2');

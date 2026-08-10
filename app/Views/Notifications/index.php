@@ -7,7 +7,8 @@
     <div class="notifications-page">
         <div class="notifications-header">
             <h1 class="notifications-title">Notifications</h1>
-            <?= form_open('/notifications/read') ?>
+            <?= form_open('/notifications/mark-all-read') ?>
+                <input type="hidden" name="_method" value="PATCH">
                 <button type="submit" class="btn-mark-read">Mark all read</button>
             <?= form_close() ?>
         </div>
@@ -15,7 +16,7 @@
         <?php if(!empty($notifications)): ?>
             <div class="notification-list">
                 <?php foreach($notifications as $notif): ?>
-                    <a href="" class="notification-item <?= ($notif['is_read']) ? '' : 'unread' ?>">
+                    <a href="<?= base_url('/notifications/' . $notif['id'] . '/visit') ?>" class="notification-item <?= ($notif['is_read']) ? '' : 'unread' ?>">
                         <img src="<?= base_url('/avatar/' . ($notif['avatar_url'] ?? 'default')) ?>" alt="" class="notification-avatar">
                         <div class="notification-body">
                             <p class="notification-text"><?= esc($notif['preview']) ?></p>
