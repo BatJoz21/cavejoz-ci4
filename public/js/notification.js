@@ -23,6 +23,19 @@ async function loadNotifications() {
     }
 }
 
+function handleNotification(notif) {
+    if(!notificationList) return;
+
+    if(!notificationLoaded) return;
+
+    const placeholder = notificationList.querySelector('.notification-status');
+    if (placeholder) {
+        notificationList.innerHTML = '';
+    }
+
+    notificationList.insertAdjacentHTML('afterbegin', buildNotificationHtml(notif));
+}
+
 document.addEventListener('click', (event) => {
     if(!notificationDropdown) return;
 

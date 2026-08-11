@@ -12,6 +12,8 @@ $routes->get('/session-test', function () {
 });
 
 $routes->group('/', ['filter' => 'jwtauth'], function($routes) {
+    $routes->get('/ws-ticket', 'WebSockets::getWebSocketTicket');
+
     $routes->get('home', 'Home::index');
     $routes->get('', 'Posts::feeds');
     $routes->post('logout', 'Auths::userLogout');
