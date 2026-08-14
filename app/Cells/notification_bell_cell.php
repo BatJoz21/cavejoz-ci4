@@ -1,9 +1,7 @@
 <div class="header-notification" id="notificationMenu">
     <button class="notification-trigger" aria-label="Notifications">
         <i class="bi bi-bell"></i>
-        <?php if(!empty($unreadCount) && $unreadCount > 0): ?>
-            <span class="notif-dot"></span>
-        <?php endif; ?>
+        <span class="notif-dot <?= $unreadCount > 0 ? '' : 'hidden' ?>"></span>
     </button>
 
     <div class="notification-dropdown">

@@ -50,6 +50,10 @@ $routes->group('/', ['filter' => 'jwtauth'], function($routes) {
     $routes->patch('notifications/mark-all-read', 'Notifications::markAllRead');
     $routes->get('notifications/(:num)/visit', 'Notifications::markReadNotification/$1');
 
+    $routes->get('chat', 'Conversations::getConversationList');
+    $routes->get('chat/(:num)', 'Conversations::openConversation/$1');
+    $routes->post('chat/(:num)/message', 'Messages::sendMessage/$1');
+
     $routes->get('feeds/posts/(:num)', 'Posts::loadMorePostsForFeed/$1');
     $routes->get('users/(:num)/posts/(:num)', 'Posts::loadMorePosts/$1/$2');
     $routes->get('content/image/(:segment)', 'Posts::getPostContentImage/$1');

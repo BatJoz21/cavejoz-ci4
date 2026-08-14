@@ -22,6 +22,7 @@ async function connectWS() {
 
         ws.onmessage = (e) => {
             const msg = JSON.parse(e.data);
+            console.log("ws frame:", msg);
             if(msg.type === 'notification') {
                 handleNotification(msg.notification);
             }

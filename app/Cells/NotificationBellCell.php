@@ -11,7 +11,7 @@ class NotificationBellCell extends Cell
 
     public function mount()
     {
-        if(! session('logged_in')) {
+        if(!session('logged_in')) {
             return;
         }
 

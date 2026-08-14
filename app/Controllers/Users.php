@@ -3,8 +3,8 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Service\ConversationApiService;
 use App\Service\FriendshipApiService;
-use App\Service\PostApiService;
 use App\Service\UserApiService;
 
 class Users extends BaseController
@@ -12,14 +12,14 @@ class Users extends BaseController
     private UserApiService $api;
     private Posts $post;
     private FriendshipApiService $friendshipApi;
-    private Likes $like;
+    private ConversationApiService $cApi;
 
     public function __construct()
     {
         $this->api = new UserApiService();
         $this->post = new Posts();
         $this->friendshipApi = new FriendshipApiService();
-        $this->like = new Likes();
+        $this->cApi = new ConversationApiService();
     }
 
     public function openMyProfile()
@@ -68,10 +68,14 @@ class Users extends BaseController
 
         // Call the method to get user's posts
         $posts = $this->post->loadPostsDataForPostCard($data['id']);
+
+        // call the API to get conversation ID
+        $cID = $this->cApi->getConversationID($data['id'])['data'] ?? 0;
         
         return view('Users/profile', [
             'data'  => $data,
-            'posts' => $posts
+            'posts' => $posts,
+            'cID'   => $cID
         ]);
     }
 

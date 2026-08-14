@@ -18,12 +18,15 @@ async function loadNotifications() {
         }
         notificationLoaded = true;
     } catch(error) {
-        notificationList.innerHTML = '<p class="notification-status">Loading...</p>';
+        notificationList.innerHTML = '<p class="notification-status">Couldn\'t load notification</p>';
         notificationLoaded = false;
     }
 }
 
 function handleNotification(notif) {
+    const dot = document.querySelector('.notif-dot');
+    if(dot) dot.classList.remove('hidden');
+    
     if(!notificationList) return;
 
     if(!notificationLoaded) return;
@@ -34,6 +37,9 @@ function handleNotification(notif) {
     }
 
     notificationList.insertAdjacentHTML('afterbegin', buildNotificationHtml(notif));
+
+    const items = notificationList.querySelectorAll('.notification-item');
+    if(items.length > 5) items[items.length - 1].remove();
 }
 
 document.addEventListener('click', (event) => {

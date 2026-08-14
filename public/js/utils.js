@@ -42,6 +42,16 @@ function getRelativeTime(timestamp) {
     return 'just now';
 }
 
+function getTimeForMessageBox(timestamp) {
+    if (!timestamp) return '';
+
+    return new Date(timestamp).toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'Asia/Jakarta'
+    });
+}
+
 function buildPostCardHtml(post) {
     return `
         <div class="post-card" data-post-id="${post.id}">
@@ -102,5 +112,16 @@ function buildNotificationHtml(n) {
                 <span class="notification-time">${getRelativeTime(n.created_at)}</span>
             </div>
         </a>
+    `;
+}
+
+function buildMessageHtml(m) {
+    return `
+        <div class="message-item ${m.sender_id == userID ? 'own' : ''}">
+            <div class="message-bubble">
+                <p class="message-text">${escapeHtml(m.content)}</p>
+                <span class="message-time">${getTimeForMessageBox(m.created_at)}</span>
+            </div>
+        </div>
     `;
 }

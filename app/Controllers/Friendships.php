@@ -8,10 +8,12 @@ use App\Service\FriendshipApiService;
 class Friendships extends BaseController
 {
     private FriendshipApiService $api;
+    private Conversations $conversations;
 
     public function __construct()
     {
         $this->api = new FriendshipApiService();
+        $this->conversations = new Conversations();
     }
 
     public function index()
@@ -92,6 +94,13 @@ class Friendships extends BaseController
         if(!$response['success']) {
             return redirect()->back()
                              ->with('error', $response['message']);
+        }
+
+        // Create a new conversation
+        $isCreated = $this->conversations->createConversation($response['data']['reqID']);
+        if(!$isCreated) {
+            return redirect()->back()
+                             ->with('error', 'Failed to create a chat room with your new friend');
         }
 
         return redirect()->to('/friends')

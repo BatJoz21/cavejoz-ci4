@@ -26,6 +26,8 @@
                         <?= form_close() ?>
                     <?php elseif($data['friendship_status'] === 'pending'): ?>
                         <button type="submit" class="btn-profile-action" disabled>Pending request</button>
+                    <?php elseif($data['friendship_status'] === 'accepted' && !empty($cID)): ?>
+                        <a href="<?= base_url('/chat/' . $cID) ?>" class="btn-profile-action">Chat</a>
                     <?php endif; ?>
                 </div>
 

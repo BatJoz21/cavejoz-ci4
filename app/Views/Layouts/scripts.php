@@ -2,6 +2,7 @@
 <script>
     const BASE_URL = <?= json_encode(rtrim(base_url(), '/')) ?>;
     const WS_BASE_URL = "<?= esc(env('api.wsBaseURL')) ?>";
+    const userID = <?= json_encode(session('user')['id'] ?? 0) ?>;
 </script>
 <script src="<?= base_url('js/sidebar.js') ?>"></script>
 <script src="<?= base_url('js/alert.js') ?>"></script>
