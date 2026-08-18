@@ -53,6 +53,8 @@ $routes->group('/', ['filter' => 'jwtauth'], function($routes) {
     $routes->get('chat', 'Conversations::getConversationList');
     $routes->get('chat/(:num)', 'Conversations::openConversation/$1');
     $routes->post('chat/(:num)/message', 'Messages::sendMessage/$1');
+    $routes->get('chat/(:num)/message', 'Messages::getConversationMessage/$1');
+    $routes->put('chat/(:num)/read', 'Conversations::markReadMessageOnConversation/$1');
 
     $routes->get('feeds/posts/(:num)', 'Posts::loadMorePostsForFeed/$1');
     $routes->get('users/(:num)/posts/(:num)', 'Posts::loadMorePosts/$1/$2');

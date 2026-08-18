@@ -16,8 +16,10 @@ class Messages extends BaseController
 
     public function sendMessage(int $cID)
     {
+        // Get user's input
         $message = $this->request->getPost('messageInput');
 
+        // Call the API to send message
         $response = $this->api->sendMessageRoute($cID, $message);
         if(!$response['success']) {
             return redirect()->back()
@@ -25,5 +27,23 @@ class Messages extends BaseController
         }
 
         return redirect()->back();
+    }
+
+    public function getConversationMessage(int $cID)
+    {
+        // Call the API to get messages by conversation ID
+        $response = $this->api->getMessageByCID($cID);
+        if(!$response['success']) {
+            return $this->response->setJSON([
+                'success'   => false,
+                'message'   => "Failed to get message"
+            ]);
+        }
+
+        // Return in JSON format
+        return $this->response->setJSON([
+            'success'   => true,
+            'messages'  => $response['data']
+        ]);
     }
 }

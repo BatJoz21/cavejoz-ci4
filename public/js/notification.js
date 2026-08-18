@@ -3,6 +3,18 @@ const notificationDropdown = document.querySelector('.notification-dropdown');
 const notificationList = document.getElementById('notificationList');
 let notificationLoaded = false;
 
+function buildNotificationHtml(n) {
+    return `
+        <a href="${BASE_URL}/notifications/${n.id}/visit" class="notification-item ${n.is_read ? '' : 'unread'}">
+            <img src="${BASE_URL}/avatar/${n.avatar_url || 'default'}" alt="" class="notification-avatar">
+            <div class="notification-body">
+                <p class="notification-text">${escapeHtml(n.preview)}</p>
+                <span class="notification-time">${getRelativeTime(n.created_at)}</span>
+            </div>
+        </a>
+    `;
+}
+
 async function loadNotifications() {
     notificationList.innerHTML = '<p class="notification-status">Loading...</p>';
 

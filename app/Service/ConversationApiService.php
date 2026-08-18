@@ -47,4 +47,13 @@ class ConversationApiService extends BaseApiService
             ]);
         });
     }
+
+    public function recordReadMessage(int $cID)
+    {
+        return $this->handleRequest(function() use($cID) {
+            return $this->client->put('/dm/' . $cID . '/read', [
+                'headers'   => $this->getHeader()
+            ]);
+        });
+    }
 }

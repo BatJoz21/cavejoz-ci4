@@ -73,4 +73,23 @@ class Conversations extends BaseController
             'currentPath'   => $currentPath
         ]);
     }
+
+    public function markReadMessageOnConversation(int $cID)
+    {
+        // Call the API and check the response
+        $response = $this->api->recordReadMessage($cID);
+        if(!$response['success']) {
+            return $this->response->setJSON([
+                'success'   => false,
+                'message'   => 'Failed to mark read messages'
+            ]);
+        }
+
+        // Return in JSON format
+        return $this->response->setJSON([
+            'success'   => true,
+            'message'   => 'Messages are marked as read',
+            'csrf_hash' => csrf_hash()
+        ]);
+    }
 }

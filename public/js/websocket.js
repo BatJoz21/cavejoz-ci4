@@ -18,6 +18,7 @@ async function connectWS() {
             console.log("ws connected");
             retryDelay = 1000;
             if(notificationLoaded) loadNotifications();
+            if(typeof messageLoaded !== 'undefined' && messageLoaded) loadMessages();
         };
 
         ws.onmessage = (e) => {
@@ -25,6 +26,10 @@ async function connectWS() {
             console.log("ws frame:", msg);
             if(msg.type === 'notification') {
                 handleNotification(msg.notification);
+            } else if(msg.type === 'message') {
+                if(typeof handleIncomingMessage === 'function') {
+                    handleIncomingMessage(msg.message);
+                }
             }
         };
 
@@ -40,6 +45,13 @@ async function connectWS() {
     }
 
     return ws;
+}
+
+function sendWS(payload) {
+    if(!ws || ws.readyState !== WebSocket.OPEN) return false;
+
+    ws.send(JSON.stringify(payload));
+    return true;
 }
 
 function scheduleReconnect() {

@@ -52,6 +52,45 @@ function getTimeForMessageBox(timestamp) {
     });
 }
 
+function getCsrfHeaderName() {
+    return document.querySelector('meta[name="csrf-header"]').content;
+}
+
+function getCsrfToken() {
+    return document.querySelector('meta[name="csrf-token"]').content;
+}
+
+async function updateCsrfToken(response) {
+    const name = getCsrfHeaderName();
+    const fresh = response.headers.get(getCsrfHeaderName());
+    if(fresh) {
+        document.querySelector('meta[name="csrf-token"]').content = fresh;
+        return;
+    }
+
+    try {
+        const clone = response.clone();
+        const data = await clone.json();
+        if(data.csrf_hash) {
+            document.querySelector('meta[name="csrf-token"]').content = data.csrf_hash;
+        }
+    } catch {}
+}
+
+async function apiFetch(url, options = {}) {
+    const headerName = getCsrfHeaderName();
+    const response = await fetch(url, {
+        ...options,
+        headers: {
+            ...(options.headers || {}),
+            [headerName]: getCsrfToken()
+        }
+    });
+
+    await updateCsrfToken(response);
+    return response;
+}
+
 function buildPostCardHtml(post) {
     return `
         <div class="post-card" data-post-id="${post.id}">
@@ -101,27 +140,4 @@ function buildPostCardMenuHtml(post) {
             </a>
         </div>
     </div>`;
-}
-
-function buildNotificationHtml(n) {
-    return `
-        <a href="${BASE_URL}/notifications/${n.id}/visit" class="notification-item ${n.is_read ? '' : 'unread'}">
-            <img src="${BASE_URL}/avatar/${n.avatar_url || 'default'}" alt="" class="notification-avatar">
-            <div class="notification-body">
-                <p class="notification-text">${escapeHtml(n.preview)}</p>
-                <span class="notification-time">${getRelativeTime(n.created_at)}</span>
-            </div>
-        </a>
-    `;
-}
-
-function buildMessageHtml(m) {
-    return `
-        <div class="message-item ${m.sender_id == userID ? 'own' : ''}">
-            <div class="message-bubble">
-                <p class="message-text">${escapeHtml(m.content)}</p>
-                <span class="message-time">${getTimeForMessageBox(m.created_at)}</span>
-            </div>
-        </div>
-    `;
 }

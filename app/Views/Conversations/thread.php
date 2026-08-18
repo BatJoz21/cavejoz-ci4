@@ -15,26 +15,10 @@
         </div>
 
         <div class="thread-messages" id="threadMessages">
-        <?php if(!empty($messages)): ?>
-                <?php foreach($messages as $m): ?>
-                    <div class="message-item <?= ($m['sender_id'] == session('user')['id']) ? 'own' : '' ?>">
-                        <div class="message-bubble">
-                            <p class="message-text"><?= esc($m['content']) ?></p>
-                            <span class="message-time"><?= date('H:i', strtotime($m['created_at'])) ?></span>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-        <?php else: ?>
-            <div class="empty-state">
-                <i class="bi bi-chat-dots"></i>
-                <p class="empty-title">No message yet</p>
-                <p class="empty-subtitle">Start send message to your friend</p>
-            </div>
-        <?php endif; ?>
         </div>
 
         <div class="thread-input-wrapper">
-            <form method="post" action="<?= base_url('/chat/' . $conversation['id'] . '/message') ?>" id="messageForm" class="thread-form">
+            <form action="<?= base_url('/chat/' . $conversation['id'] . '/message') ?>" id="messageForm" class="thread-form">
                 <?= csrf_field() ?>
                 <input type="text" name="messageInput" id="messageInput" class="thread-input" placeholder="Message..." autocomplete="off" required>
                 <button type="submit" class="btn-send" aria-label="Send"><i class="bi bi-send"></i></button>
@@ -42,5 +26,16 @@
         </div>
     <?php endif; ?>
     </div>
+
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
+
+<?php if(!empty($conversation)): ?>
+    <script>
+        const CONVERSATION_ID = <?= (int) $conversation['id'] ?>;
+    </script>
+<?php endif; ?>
+    <script src="<?= base_url('js/chat.js') ?>"></script>
 
 <?= $this->endSection() ?>
