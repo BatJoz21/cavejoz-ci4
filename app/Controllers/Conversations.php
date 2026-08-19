@@ -63,7 +63,7 @@ class Conversations extends BaseController
             return redirect()->back()
                              ->with('error', $response['message']);
         }
-
+        
         // Get current path for toggle add post button visibility
         $currentPath = uri_string();
 

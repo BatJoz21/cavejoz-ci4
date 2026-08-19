@@ -31,8 +31,10 @@ class Messages extends BaseController
 
     public function getConversationMessage(int $cID)
     {
+        $cursor = (int) $this->request->getGet('cursor') ?? 0;
+
         // Call the API to get messages by conversation ID
-        $response = $this->api->getMessageByCID($cID);
+        $response = $this->api->getMessageByCID($cID, $cursor);
         if(!$response['success']) {
             return $this->response->setJSON([
                 'success'   => false,
@@ -42,8 +44,9 @@ class Messages extends BaseController
 
         // Return in JSON format
         return $this->response->setJSON([
-            'success'   => true,
-            'messages'  => $response['data']
+            'success'       => true,
+            'messages'      => $response['data']['messages'],
+            'next_cursor'   => $response['data']['next_cursor']
         ]);
     }
 }

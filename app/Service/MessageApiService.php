@@ -14,10 +14,15 @@ class MessageApiService extends BaseApiService
         });
     }
 
-    public function getMessageByCID(int $cID)
+    public function getMessageByCID(int $cID, int $cursor=0)
     {
-        return $this->handleRequest(function() use($cID) {
-            return $this->client->get('/dm/' . $cID . '/message', [
+        $url = '/dm/' . $cID . '/message';
+        if($cursor > 0) {
+            $url = $url . '?cursor=' . $cursor;
+        }
+
+        return $this->handleRequest(function() use($url) {
+            return $this->client->get($url, [
                 'headers'   => $this->getHeader()
             ]);
         });

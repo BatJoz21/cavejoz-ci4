@@ -1,5 +1,7 @@
 const threadMessage = document.getElementById('threadMessages');
 let messageLoaded = false;
+let nextCursor = 0;
+let loadingOrder = false;
 
 function buildMessageHtml(m) {
     return `
@@ -16,7 +18,9 @@ async function loadMessages() {
     try {
         const response = await fetch(`${BASE_URL}/chat/${CONVERSATION_ID}/message`);
         const data = await response.json();
+        console.log('load response:', data);
         const items = data['messages'] ?? [];
+        nextCursor = data['next_cursor'] ?? 0;
 
         if(items.length === 0) {
             threadMessage.innerHTML = `<div class="empty-state">
@@ -29,6 +33,8 @@ async function loadMessages() {
 
             markConversationRead();
         }
+
+        updateLoadOlderButton();
         messageLoaded = true;
     } catch(error) {
         threadMessage.innerHTML = `<div class="empty-state">

@@ -14,7 +14,12 @@
             <a href="<?= base_url('/profile/' . $conversation['username']) ?>" class="thread-username"><?= esc($conversation['username']) ?></a>
         </div>
 
-        <div class="thread-messages" id="threadMessages">
+        <div class="thread-message-wrapper">
+            <button id="loadOlderBtn" class="btn-load-older" style="display: none;">
+                Load older message
+            </button>
+
+            <div class="thread-messages" id="threadMessages"></div>
         </div>
 
         <div class="thread-input-wrapper">
@@ -37,5 +42,6 @@
     </script>
 <?php endif; ?>
     <script src="<?= base_url('js/chat.js') ?>"></script>
+    <script src="<?= base_url('js/loadOlderChat.js') ?>"></script>
 
 <?= $this->endSection() ?>
