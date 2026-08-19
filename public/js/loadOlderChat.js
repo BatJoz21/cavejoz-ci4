@@ -1,3 +1,4 @@
+const wrapper = document.querySelector('.thread-message-wrapper');
 const loadOlderBtn = document.getElementById('loadOlderBtn');
 
 function updateLoadOlderButton() {
@@ -23,10 +24,9 @@ async function loadOlderMessage() {
         console.log('older items:', items.length, 'next cursor:', nextCursor);
 
         if(items.length > 0) {
-            const previousHeight = threadMessage.scrollHeight;
-            console.log('prepending to', threadMessage);
+            const previousHeight = wrapper.scrollHeight;
             threadMessage.insertAdjacentHTML('afterbegin', items.map(buildMessageHtml).join(''));
-            threadMessage.scrollTop = threadMessage.scrollHeight - previousHeight;
+            wrapper.scrollTop = wrapper.scrollHeight - previousHeight;
         }
     } catch(error) {
         console.error('Failed to load older message ', error);

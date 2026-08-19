@@ -30,6 +30,10 @@ async function connectWS() {
                 if(typeof handleIncomingMessage === 'function') {
                     handleIncomingMessage(msg.message);
                 }
+            } else if(msg.type === 'typing') {
+                if(typeof handleTypingIndicator === 'function') {
+                    handleTypingIndicator(msg.conversation_id);
+                }
             }
         };
 

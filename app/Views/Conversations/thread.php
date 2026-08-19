@@ -22,6 +22,10 @@
             <div class="thread-messages" id="threadMessages"></div>
         </div>
 
+        <div id="typingIndicator" class="typing-indicator">
+            <span><?= esc($conversation['username']) ?> is typing...</span>
+        </div>
+
         <div class="thread-input-wrapper">
             <form action="<?= base_url('/chat/' . $conversation['id'] . '/message') ?>" id="messageForm" class="thread-form">
                 <?= csrf_field() ?>

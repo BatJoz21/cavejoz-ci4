@@ -3,6 +3,12 @@ let messageLoaded = false;
 let nextCursor = 0;
 let loadingOrder = false;
 
+let lastTypingSent = 0;
+let typingTimer = null;
+const TYPING_THROTTLE = 2000;
+const TYPING_TIMEOUT = 3000;
+const typingIndicator = document.getElementById('typingIndicator');
+
 function buildMessageHtml(m) {
     return `
         <div class="message-item ${m.sender_id == userID ? 'own' : ''}">
@@ -12,6 +18,23 @@ function buildMessageHtml(m) {
             </div>
         </div>
     `;
+}
+
+function showTypingIndicator() {
+    if(typingIndicator) typingIndicator.classList.add('visible')
+}
+
+function hideTypingIndicator() {
+    if(typingIndicator) typingIndicator.classList.remove('visible');
+}
+
+function handleTypingIndicator(conversationId) {
+    if(typeof CONVERSATION_ID === 'undefined') return;
+    if(conversationId != CONVERSATION_ID) return;
+
+    showTypingIndicator();
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(hideTypingIndicator, TYPING_TIMEOUT);
 }
 
 async function loadMessages() {
@@ -66,6 +89,11 @@ function handleIncomingMessage(m) {
     if(typeof CONVERSATION_ID === 'undefined') return;
     if(m.conversation_id != CONVERSATION_ID) return;
 
+    if(m.sender_id != userID) {
+        hideTypingIndicator();
+        clearTimeout(typingTimer);
+    }
+
     appendMessage(m);
     if(m.sender_id != userID) markConversationRead();
 }
@@ -74,6 +102,16 @@ const messageForm = document.getElementById('messageForm');
 const messageInput = document.getElementById('messageInput');
 
 if(messageForm) {
+    messageForm.addEventListener('input', () => {
+        const now = Date.now();
+        if(now - lastTypingSent < TYPING_THROTTLE) return;
+        lastTypingSent = now;
+        sendWS({
+            type: "typing",
+            conversation_id: CONVERSATION_ID
+        });
+    });
+
     messageForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
