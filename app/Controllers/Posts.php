@@ -46,7 +46,7 @@ class Posts extends BaseController
         ], $content);
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message'])
+                             ->with('error', 'Upload failed!')
                              ->withInput();
         }
 
@@ -62,8 +62,7 @@ class Posts extends BaseController
         // Call the API method
         $response = $this->api->getFeeds($page);
         if(!$response['success']) {
-            return redirect()->to('/')
-                             ->with('error', 'Failed to get post data: ' . $response['message']);
+            throw new \RuntimeException("Failed to show your feeds", 500);
         }
         
         // Get post's like and comments data
@@ -87,7 +86,7 @@ class Posts extends BaseController
         $responsePost = $this->api->getPostByID($postID);
         if(!$responsePost['success']) {
             return redirect()->to('/')
-                             ->with('error', 'Failed to get post data: ' . $responsePost['message']);
+                             ->with('error', 'An error has occured');
         }
 
         // Get post's like and comments data
@@ -142,7 +141,7 @@ class Posts extends BaseController
         $responsePost = $this->api->getUserPosts($id);
         if(!$responsePost['success']) {
             return redirect()->to('/')
-                             ->with('error', 'Failed to get post data: ' . $responsePost['message']);
+                             ->with('error', 'Failed to load post data');
         }
 
         // Get post's like and comments data
@@ -163,7 +162,7 @@ class Posts extends BaseController
         $response = $this->api->getPostByID($postID);
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message'])
+                             ->with('error', 'An error has occured')
                              ->withInput();
         }
 
@@ -183,7 +182,7 @@ class Posts extends BaseController
         ], $content);
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message'])
+                             ->with('error', 'Failed to edit this post')
                              ->withInput();
         }
 
@@ -197,7 +196,7 @@ class Posts extends BaseController
         $response = $this->api->deletePost($postID);
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message'])
+                             ->with('error', 'Failed to delete this post')
                              ->withInput();
         }
 
