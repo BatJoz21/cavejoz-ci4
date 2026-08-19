@@ -58,10 +58,22 @@ class Auths extends BaseController
 
     public function userLogin()
     {
+        // Get device information
+        $agent = $this->request->getUserAgent();
+        $device_name = 'Unknown device';
+        if($agent->isBrowser()) {
+            if($agent->isMobile()) {
+                $device_name = $agent->getMobile() . '|' . $agent->getPlatform() . '|' . $agent->getBrowser() . ', ' . $agent->getVersion();
+            } else {
+                $device_name = $agent->getPlatform() . '|' . $agent->getBrowser() . ', ' . $agent->getVersion();
+            }
+        }
+
         // Get API response
         $response = $this->api->login([
-            'email'     => $this->request->getPost('email'),
-            'password'  => $this->request->getPost('password')
+            'email'         => $this->request->getPost('email'),
+            'password'      => $this->request->getPost('password'),
+            'device_name'   => $device_name,
         ]);
 
         // Handle failed response
