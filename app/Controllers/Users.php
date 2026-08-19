@@ -28,7 +28,7 @@ class Users extends BaseController
         $response = $this->api->getMyProfile();
         if(!$response['success']) {
             return redirect()->to('/')
-                             ->with('error', $response['message']);
+                             ->with('error', 'Failed to open your profile');
         }
         $data = $response['data'];
         
@@ -51,7 +51,7 @@ class Users extends BaseController
         $response = $this->api->getUserProfile($username);
         if(!$response['success']) {
             return redirect()->to('/')
-                             ->with('error', $response['message']);
+                             ->with('error', 'Failed to open a user profile');
         }
         $data = $response['data'];
 
@@ -100,7 +100,7 @@ class Users extends BaseController
         $response = $this->api->getMyProfile();
         if(!$response['success']) {
             return redirect()->to('/profile')
-                             ->with('error', $response['message']);
+                             ->with('error', 'An error has occured');
         }
 
         return view('Users/edit-profile', [
@@ -121,7 +121,7 @@ class Users extends BaseController
         ], $avatar);
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message'])
+                             ->with('error', 'Failed to edit your profile')
                              ->withInput();
         }
 

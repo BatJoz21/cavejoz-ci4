@@ -42,7 +42,7 @@ class Auths extends BaseController
 
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message'])
+                             ->with('error', 'An error has occured during user registration')
                              ->withInput();
         }
 
@@ -79,7 +79,7 @@ class Auths extends BaseController
         // Handle failed response
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message']);
+                             ->with('error', 'An error has occured during user login');
         }
 
         // Set variable and it's values in session
@@ -109,7 +109,7 @@ class Auths extends BaseController
         // Handle failed response
         if(!$response['success']) {
             return redirect()->to('/')
-                             ->with('error', $response['message']);
+                             ->with('error', 'Failed to logout');
         }
 
         // Destory the session

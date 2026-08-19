@@ -37,7 +37,7 @@ class Friendships extends BaseController
         // Handle failed response
         if(!$response['success']) {
             return redirect()->to('/')
-                                ->with('error', $response['message']);
+                                ->with('error', 'An error has occured');
         }
         // Get response's data if success
         $users = $response['data']['data'];
@@ -61,7 +61,7 @@ class Friendships extends BaseController
         $response = $this->api->addFriend($addresseID);
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message']);
+                             ->with('error', 'Failed to add friend this user');
         }
 
         return redirect()->to('/friends')
@@ -77,7 +77,7 @@ class Friendships extends BaseController
         $response = $this->api->blockUser($addresseID);
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message']);
+                             ->with('error', 'Failed to block a user');
         }
 
         return redirect()->to('/friends')
@@ -93,7 +93,7 @@ class Friendships extends BaseController
         $response = $this->api->acceptFriend($frID);
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message']);
+                             ->with('error', 'Failed to accept friend request');
         }
 
         // Create a new conversation
@@ -116,7 +116,7 @@ class Friendships extends BaseController
         $response = $this->api->rejectOrRemoveFriend($frID);
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message']);
+                             ->with('error', 'Failed: an error has occured');
         }
 
         return redirect()->to('/friends')

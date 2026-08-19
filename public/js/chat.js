@@ -41,7 +41,6 @@ async function loadMessages() {
     try {
         const response = await fetch(`${BASE_URL}/chat/${CONVERSATION_ID}/message`);
         const data = await response.json();
-        console.log('load response:', data);
         const items = data['messages'] ?? [];
         nextCursor = data['next_cursor'] ?? 0;
 

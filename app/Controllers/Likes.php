@@ -41,8 +41,7 @@ class Likes extends BaseController
     {
         $response = $this->api->getTotalLike($postID);
         if(!$response['success']) {
-            return redirect()->to('')
-                             ->with('error', $response['message']);
+            return 0;
         }
 
         return $response['data'];

@@ -20,7 +20,7 @@ class Notifications extends BaseController
         $response = $this->api->getUserNotifications();
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message']);
+                             ->with('error', 'Failed to fetch notification');
         }
 
         return view('Notifications/index', ['notifications' => $response['data']]);

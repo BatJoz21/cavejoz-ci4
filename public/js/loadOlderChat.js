@@ -2,7 +2,6 @@ const wrapper = document.querySelector('.thread-message-wrapper');
 const loadOlderBtn = document.getElementById('loadOlderBtn');
 
 function updateLoadOlderButton() {
-    console.log('updateLoadOlderButton, nextCursor =', nextCursor, 'btn =', loadOlderBtn);
     if(!loadOlderBtn) return;
     loadOlderBtn.style.display = nextCursor > 0 ? 'block' : 'none';
 }
@@ -18,10 +17,6 @@ async function loadOlderMessage() {
         const data = await response.json();
         const items = data['messages'] ?? [];
         nextCursor = data['next_cursor'] ?? 0;
-        console.log('full response:', data);
-        console.log('requested URL:', response.url);
-
-        console.log('older items:', items.length, 'next cursor:', nextCursor);
 
         if(items.length > 0) {
             const previousHeight = wrapper.scrollHeight;

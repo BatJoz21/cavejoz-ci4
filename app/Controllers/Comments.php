@@ -23,7 +23,7 @@ class Comments extends BaseController
         $response = $this->api->addNewComment($postID, $this->request->getPost('content'));
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message']);
+                             ->with('error', 'Failed to add comment');
         }
 
         return redirect()->back()
@@ -56,7 +56,7 @@ class Comments extends BaseController
         $response = $this->api->deleteComment($postID, $commentID);
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message']);
+                             ->with('error', 'Failed to delete comment');
         }
 
         return redirect()->back()

@@ -15,7 +15,6 @@ async function connectWS() {
         ws = new WebSocket(`${WS_BASE_URL}/goapi/ws?ticket=${ticket}`);
 
         ws.onopen = () => {
-            console.log("ws connected");
             retryDelay = 1000;
             if(notificationLoaded) loadNotifications();
             if(typeof messageLoaded !== 'undefined' && messageLoaded) loadMessages();
@@ -23,7 +22,6 @@ async function connectWS() {
 
         ws.onmessage = (e) => {
             const msg = JSON.parse(e.data);
-            console.log("ws frame:", msg);
             if(msg.type === 'notification') {
                 handleNotification(msg.notification);
             } else if(msg.type === 'message') {
@@ -59,7 +57,6 @@ function sendWS(payload) {
 }
 
 function scheduleReconnect() {
-    console.log("reconnecting in", retryDelay, "ms");
     setTimeout(connectWS, retryDelay);
     retryDelay = Math.min(retryDelay * 2, MAX_DELAY);
 }

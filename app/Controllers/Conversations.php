@@ -38,7 +38,7 @@ class Conversations extends BaseController
         $response = $this->api->getConversations($page);
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message']);
+                             ->with('error', 'Failed to get your conversations');
         }
 
         // Count total available page
@@ -61,7 +61,7 @@ class Conversations extends BaseController
         $response = $this->api->getConversation($cID);
         if(!$response['success']) {
             return redirect()->back()
-                             ->with('error', $response['message']);
+                             ->with('error', 'Failed to open conversation');
         }
         
         // Get current path for toggle add post button visibility
