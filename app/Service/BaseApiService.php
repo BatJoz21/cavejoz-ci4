@@ -10,7 +10,7 @@ class BaseApiService {
     public function __construct()
     {
         $this->client = new Client([
-            'base_uri'      => 'http://localhost:8080',
+            'base_uri'      => env('api.baseURL'),
             'timeout'       => 10
         ]);
     }

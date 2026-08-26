@@ -7,9 +7,6 @@ $routes->get('/register', 'Auths::openRegisterPage');
 $routes->post('/register', 'Auths::registerNewUser');
 $routes->get('/login', 'Auths::openLoginPage');
 $routes->post('/login', 'Auths::userLogin');
-$routes->get('/session-test', function () {
-    dd(session()->get());
-});
 
 $routes->group('/', ['filter' => 'jwtauth'], function($routes) {
     $routes->get('/ws-ticket', 'WebSockets::getWebSocketTicket');

@@ -95,9 +95,9 @@ function buildPostCardHtml(post) {
     return `
         <div class="post-card" data-post-id="${post.id}">
             <div class="post-header">
-                <img src="${BASE_URL}/avatar/${post.avatar_url}" alt="" class="post-avatar">
+                <img src="${BASE_URL}/avatar/${encodeURIComponent(post.avatar_url)}" alt="" class="post-avatar">
                 <div class="post-header-info">
-                    <span class="post-username">${post.username}</span>
+                    <span class="post-username">${escapeHtml(post.username)}</span>
                     <span class="post-timestamp">${formatPostDate(post.created_at)}</span>
                 </div>
 
@@ -106,7 +106,7 @@ function buildPostCardHtml(post) {
 
             <div class="post-content">
                 <p class="post-text">${escapeHtml(post.caption)}</p>
-                <img src="${contentImageBaseUrl}${post.content_url}" alt="" class="post-image">
+                <img src="${contentImageBaseUrl}${encodeURIComponent(post.content_url)}" alt="" class="post-image">
             </div>
 
             <div class="post-engagement">
@@ -132,10 +132,10 @@ function buildPostCardMenuHtml(post) {
             <i class="bi bi-three-dots-vertical"></i>
         </button>
         <div class="post-menu-dropdown">
-            <a href="<?= base_url('/post/' . $post['id'] . '/edit') ?>" class="post-menu-item">
+            <a href="${BASE_URL}/post/${post.id}/edit" class="post-menu-item">
                 <i class="bi bi-pencil-square"></i> Edit
             </a>
-            <a href="<?= base_url('/post/' . $post['id'] . '/delete') ?>" class="post-menu-item post-menu-item-danger">
+            <a href="${BASE_URL}/post/${post.id}/delete" class="post-menu-item post-menu-item-danger">
                 <i class="bi bi-trash"></i> Delete
             </a>
         </div>

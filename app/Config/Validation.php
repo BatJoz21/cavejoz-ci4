@@ -50,7 +50,10 @@ class Validation extends BaseConfig
         ],
         'username'      => [
             'label'         => 'Username',
-            'rules'         => ['required', 'max_length[49]'],
+            'rules'         => ['required', 'regex_match[/^[a-zA-Z0-9_]{3,30}$/]'],
+            'errors'        => [
+                'regex_match' => 'The {field} field may only contain letters, numbers, and underscores, and must be 3-30 characters.',
+            ],
         ],
         'email'         => [
             'label'         => 'Email',
@@ -64,7 +67,7 @@ class Validation extends BaseConfig
             'label'         => 'Password',
             'rules'         => [
                 'required',
-                'max_length[16]',
+                'max_length[128]',
                 'strong_password',
             ],
             'errors' => [
@@ -77,6 +80,36 @@ class Validation extends BaseConfig
         ],
     ];
 
+    public $userLogin = [
+        'email'         => [
+            'label'         => 'Email',
+            'rules'         => [
+                'required',
+                'valid_email',
+            ],
+        ],
+        'password'      => [
+            'label'         => 'Password',
+            'rules'         => [
+                'required',
+            ],
+        ],
+    ];
+
+    public $updateProfile = [
+        'full_name'     => [
+            'label'         => 'Full Name',
+            'rules'         => ['required', 'max_length[200]'],
+        ],
+        'username'      => [
+            'label'         => 'Username',
+            'rules'         => ['required', 'regex_match[/^[a-zA-Z0-9_]{3,30}$/]'],
+            'errors'        => [
+                'regex_match' => 'The {field} field may only contain letters, numbers, and underscores, and must be 3–30 characters.',
+            ],
+        ],
+    ];
+
     public $newPost = [
         'visibility'    => [
             'label'         => 'Visibility',
@@ -85,6 +118,13 @@ class Validation extends BaseConfig
         'caption'       => [
             'label'         => 'Caption',
             'rules'         => 'required|max_length[500]',
-        ]
+        ],
+    ];
+
+    public $editPost = [
+        'caption'       => [
+            'label'         => 'Caption',
+            'rules'         => 'required|max_length[500]',
+        ],
     ];
 }

@@ -24,7 +24,7 @@ class Likes extends BaseController
             return $this->response->setStatusCode(400)
                                   ->setJSON([
                                       'success' => false,
-                                      'message' => $response['message'],
+                                      'message' => 'failed to like/unlike this post',
                                       'csrf'    => csrf_hash()
                                   ]);
         }
