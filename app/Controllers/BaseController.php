@@ -26,6 +26,12 @@ abstract class BaseController extends Controller
      */
 
     // protected $session;
+    protected const ALLOWED_IMAGE_TYPES = [
+        IMAGETYPE_JPEG  => 'image/jpeg',
+        IMAGETYPE_PNG   => 'image/png',
+        IMAGETYPE_GIF   => 'image/gif',
+        IMAGETYPE_WEBP  => 'image/webp',
+    ];
 
     /**
      * @return void

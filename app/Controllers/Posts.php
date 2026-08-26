@@ -4,6 +4,10 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Service\PostApiService;
+use CodeIgniter\Exceptions\PageNotFoundException;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ResponseException;
 
 class Posts extends BaseController
 {
@@ -62,7 +66,7 @@ class Posts extends BaseController
         // Call the API method
         $response = $this->api->getFeeds($page);
         if(!$response['success']) {
-            throw new \RuntimeException("Failed to show your feeds", 500);
+            throw PageNotFoundException::forPageNotFound("Unable to fetch data for your feeds");
         }
         
         // Get post's like and comments data
@@ -112,17 +116,65 @@ class Posts extends BaseController
 
     public function getPostContentImage(string $filename)
     {
-        // Call the API to get the content image
-        $response = $this->api->getPostContentImage($filename);
-        
-        // Get the response's body
-        $body = (string) $response->getBody();
+        try {
+            // Call the API to get the content image
+            $response = $this->api->getPostContentImage($filename);
+            
+            // Get the response's body
+            $body = (string) $response->getBody();
 
-        // Set up to show the image
-        return $this->response->setStatusCode(200)
-                              ->setHeader('Content-Type', $response->getHeaderLine('Content-Type'))
-                              ->setHeader('Content-Length', strlen($body))
-                              ->setBody($body);
+            // Verify the image type
+            $info = @getimagesizefromstring($body);
+            if($info === false || !isset(self::ALLOWED_IMAGE_TYPES[$info[2]])) {
+                log_message('warning', 'Non image content served from image route', [
+                    'file'      => $filename,
+                    'api_type'  => $response->getHeaderLine('Content-Type'),
+                ]);
+
+                return $this->response->setStatusCode(415)->setBody('');
+            }
+
+            // Set up to show the image
+            $mime = self::ALLOWED_IMAGE_TYPES[$info[2]];
+            return $this->response->setStatusCode(200)
+                                  ->setHeader('Content-Type', $mime)
+                                  ->setHeader('Content-Length', strlen($body))
+                                  ->setHeader('X-Content-Type-Option', 'nosniff')
+                                  ->setHeader('Content-Security-Policy', "default-src 'none'; sandbox")
+                                  ->setBody($body);
+        } catch(ConnectException $e) {
+            // API unreachable
+            log_message('error', 'Failed to connect to the API', [
+                'file'      => $filename,
+                'message'   => $e->getMessage(),
+            ]);
+
+            return $this->response->setStatusCode(503)->setBody('');
+        } catch(ResponseException $e) {
+            // API responded with an error status code
+            $statusCode = $e->getResponse()?->getStatusCode() ?? 502;
+
+            log_message('error', 'Image API error', [
+                'status'    => $statusCode,
+                'file'      => $filename,
+            ]);
+
+            return $this->response->setStatusCode($statusCode == 404 ? 404 : 502)->setBody('');
+        } catch(RequestException $e) {
+            // API request failed before any response
+            log_message('error', 'Image request failed before response', [
+                'file'      => $filename,
+                'message'   => $e->getMessage(),
+            ]);
+
+            return $this->response->setStatusCode(502)->setBody('');
+        } catch(\Throwable $e) {
+            log_message('critical', 'Unexpected image proxy failure', [
+                'message'   => $e->getMessage(),
+            ]);
+
+            return $this->response->setStatusCode(500)->setBody('');
+        }
     }
 
     public function getTotalPostOfUser(int $uID)
@@ -171,6 +223,14 @@ class Posts extends BaseController
 
     public function update(int $postID)
     {
+        // Validate user's input
+        $rules = config('Validation')->editPost;
+        if(!$this->validate($rules)) {
+            return redirect()->back()
+                             ->with('errors', $this->validator->getErrors())
+                             ->withInput();
+        }
+
         // Get uploaded file
         $content = $this->request->getFile('content');
 
@@ -211,7 +271,7 @@ class Posts extends BaseController
         if(!$response['success']) {
             return $this->response->setStatusCode(500)->setJSON([
                 'success'   => false,
-                'message'   => $response['message']
+                'message'   => 'failed to fetch more post'
             ]);
         }
         
@@ -238,7 +298,7 @@ class Posts extends BaseController
         if(!$response['success']) {
             return $this->response->setStatusCode(500)->setJSON([
                 'success'   => false,
-                'message'   => $response['message']
+                'message'   => 'failed to load more posts'
             ]);
         }
 

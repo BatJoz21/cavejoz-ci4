@@ -1,69 +1,150 @@
-# CodeIgniter 4 Application Starter
+# CaveJoz — Web Client
 
-## What is CodeIgniter?
+The CodeIgniter 4 front end for **CaveJoz**, a social media application. This repository renders the user interface and talks to the [CaveJoz Go API](https://github.com/BatJoz21/cavejoz-go-api) over HTTP and WebSocket.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+CaveJoz is built as a full-stack learning project: a Go/Gin REST API backed by MySQL, with this CI4 application as the client.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+---
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Features
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+**Accounts**
+- Registration with avatar upload, login, and logout
+- Session-based auth holding the access and refresh tokens issued by the API
+- Editable profile (full name, username, email, bio, avatar) with live avatar preview
 
-## Installation & updates
+**Posts**
+- Create, edit, and delete posts with an image and caption
+- Public or friends-only visibility
+- Paginated feed and profile timelines ("Load More")
+- Likes with live counts, and threaded comments with pagination
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+**Social**
+- Friend requests: send, accept, decline, and remove
+- User search
+- Public and friends-only profiles
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+**Notifications**
+- Dedicated notifications page plus a bell dropdown
+- Live push over WebSocket for likes, comments, and friend activity
+- Unread indicator and per-notification read tracking
 
-## Setup
+**Direct Messages**
+- One-to-one conversations
+- Real-time delivery over WebSocket
+- Typing indicator, cursor-based history loading, and read watermarks
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+**Interface**
+- Dark, cave-inspired theme with a warm amber accent
+- Responsive down to mobile, with an overlay sidebar on small screens
 
-## Important Change with index.php
+---
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## Tech Stack
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+| Layer | Technology |
+|---|---|
+| Framework | CodeIgniter 4 |
+| Language | PHP 8.1+ |
+| HTTP client | Guzzle |
+| Styling | Bootstrap 5 + custom CSS |
+| Icons | Bootstrap Icons |
+| Scripting | Vanilla JavaScript (no build step) |
+| Backend | [CaveJoz Go API](https://github.com/BatJoz21/cavejoz-go-api) (Go, Gin, MySQL) |
 
-**Please** read the user guide for a better explanation of how CI4 works!
+---
 
-## Repository Management
+## Prerequisites
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+- PHP 8.1 or newer, with the `intl`, `mbstring`, and `curl` extensions enabled
+- Composer
+- A running instance of the CaveJoz Go API
+- MySQL (used by the API, not directly by this application)
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+---
 
-## Server Requirements
+## Getting Started
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+**1. Clone the repository**
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+```bash
+git clone https://github.com/BatJoz21/cavejoz-ci4.git
+cd cavejoz-ci4
+```
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+**2. Install dependencies**
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+```bash
+composer install
+```
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+**3. Create your environment file**
+
+```bash
+cp env .env
+```
+
+**4. Configure it**
+
+```dotenv
+CI_ENVIRONMENT = development
+
+app.baseURL = 'http://cavejoz.localhost/'
+
+# WebSocket endpoint exposed by the Go API
+api.wsBaseURL = 'ws://localhost:8080'
+```
+
+**5. Start the application**
+
+```bash
+php spark serve
+```
+
+The app is then available at `http://localhost:8080`, or at your configured `app.baseURL` if you are running it through Apache or Nginx.
+
+Make sure the Go API is running before you sign in — this client has no local database of its own.
+
+---
+
+## Project Structure
+
+```
+app/
+├── Cells/          View cells (e.g. the notification bell)
+├── Config/         Framework and application configuration
+├── Controllers/    Request handling and API orchestration
+├── Filters/        Auth and session filters
+├── Helpers/        Shared helpers (e.g. relative time formatting)
+├── Services/       Guzzle-based clients for the Go API
+└── Views/
+    ├── Layouts/    Main and auth layouts, header, sidebar
+    └── ...         Page views
+
+public/
+└── assets/
+    ├── css/
+    └── js/         utils.js and page scripts
+```
+
+---
+
+## Notes on Configuration
+
+**Timestamps.** The API stores and returns timestamps in UTC. Relative times ("2 hours ago") are calculated client-side and in PHP helpers, so no timezone conversion is needed in this application.
+
+**CSRF.** CSRF protection is enabled. Forms use `csrf_field()`; JavaScript requests read the token from meta tags in the layout head.
+
+**Uploads.** Avatars and post images are served through the API. The relevant base URLs are exposed to JavaScript from the layout.
+
+---
+
+## Related Repositories
+
+- **CaveJoz Go API** — [CaveJoz Go API](https://github.com/BatJoz21/cavejoz-go-api)
+
+---
+
+## License
+
+MIT

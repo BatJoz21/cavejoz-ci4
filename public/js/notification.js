@@ -6,7 +6,7 @@ let notificationLoaded = false;
 function buildNotificationHtml(n) {
     return `
         <a href="${BASE_URL}/notifications/${n.id}/visit" class="notification-item ${n.is_read ? '' : 'unread'}">
-            <img src="${BASE_URL}/avatar/${n.avatar_url || 'default'}" alt="" class="notification-avatar">
+            <img src="${BASE_URL}/avatar/${encodeURIComponent(n.avatar_url) || 'default'}" alt="" class="notification-avatar">
             <div class="notification-body">
                 <p class="notification-text">${escapeHtml(n.preview)}</p>
                 <span class="notification-time">${getRelativeTime(n.created_at)}</span>

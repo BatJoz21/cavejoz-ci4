@@ -11,13 +11,13 @@ class CustomRules
         }
 
         // Check if password is shorter than 8 characters
-        if(strlen($str) < 8) {
+        if(mb_strlen($str) < 8) {
             $error = 'The {field} field must be at least 8 characters long.';
             return false;
         }
 
         // Check if password is longer than 16 characters
-        if(strlen($str) > 16) {
+        if(mb_strlen($str) > 128) {
             $error = 'The {field} field must not be more than 16 characters long.';
             return false;
         }

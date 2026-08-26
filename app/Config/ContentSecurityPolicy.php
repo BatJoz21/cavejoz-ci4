@@ -15,6 +15,28 @@ use CodeIgniter\Config\BaseConfig;
  */
 class ContentSecurityPolicy extends BaseConfig
 {
+    /**
+     * Origin serving Bootstrap, Bootstrap Icons and their font files. Vendoring
+     * these into public/ would let every directive below drop back to plain
+     * 'self' and remove the third-party dependency from the critical path.
+     */
+    private const CDN = 'https://cdn.jsdelivr.net';
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        // connect-src governs fetch/XHR *and* WebSockets. The socket endpoint
+        // lives in .env, so derive the directive from it rather than repeating
+        // the origin here — otherwise switching to wss:// in production would
+        // silently break notifications, chat and the typing indicator.
+        $socket = (string) env('api.wsBaseURL');
+
+        if ($socket !== '') {
+            $this->connectSrc = ['self', $socket];
+        }
+    }
+
     // -------------------------------------------------------------------------
     // Broadbrush CSP management
     // -------------------------------------------------------------------------
@@ -59,14 +81,14 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var list<string>|string
      */
-    public $scriptSrc = 'self';
+    public $scriptSrc = ['self', self::CDN];
 
     /**
      * Specifies valid sources for JavaScript <script> elements.
      *
      * @var list<string>|string
      */
-    public array|string $scriptSrcElem = 'self';
+    public array|string $scriptSrcElem = ['self', self::CDN];
 
     /**
      * Specifies valid sources for JavaScript inline event
@@ -81,22 +103,29 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var list<string>|string
      */
-    public $styleSrc = 'self';
+    public $styleSrc = ['self', self::CDN];
 
     /**
      * Specifies valid sources for stylesheets <link> elements.
      *
      * @var list<string>|string
      */
-    public array|string $styleSrcElem = 'self';
+    public array|string $styleSrcElem = ['self', self::CDN];
 
     /**
      * Specifies valid sources for stylesheets inline
      * style attributes and `<style>` elements.
      *
+     * Several views toggle visibility with a `style="display: none"` attribute
+     * (Posts/create.php, Posts/edit.php, Conversations/thread.php). Inline style
+     * attributes cannot carry a nonce, so 'unsafe-inline' is required for them
+     * to apply at all. This is far weaker than script-src 'unsafe-inline' would
+     * be — it permits styling only, not execution. Replacing those attributes
+     * with a CSS class would let this drop back to plain 'self'.
+     *
      * @var list<string>|string
      */
-    public array|string $styleSrcAttr = 'self';
+    public array|string $styleSrcAttr = ['self', 'unsafe-inline'];
 
     /**
      * Defines the origins from which images can be loaded.
@@ -132,9 +161,11 @@ class ContentSecurityPolicy extends BaseConfig
     /**
      * Specifies the origins that can serve web fonts.
      *
+     * Bootstrap Icons pulls its woff2 files from the same CDN as its stylesheet.
+     *
      * @var list<string>|string
      */
-    public $fontSrc;
+    public $fontSrc = ['self', self::CDN];
 
     /**
      * Lists valid endpoints for submission from `<form>` tags.
