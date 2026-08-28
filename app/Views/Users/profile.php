@@ -12,7 +12,7 @@
         </script>
 
         <div class="profile-header">
-            <img src="<?= base_url('/avatar/' . ($data['avatar_url'] ?? 'default')) ?>" alt="" class="profile-avatar">
+            <img src="<?= $data['avatar_url'] && $data['avatar_url'] !== 'default' ? base_url('/avatar/' . $data['avatar_url']) : base_url('assets/img/default_avatar.png') ?>" alt="" class="profile-avatar">
 
             <div class="profile-info">
                 <div class="profile-info-top">
@@ -46,7 +46,7 @@
                 <?php foreach($posts as $post): ?>
                     <div class="post-card">
                         <div class="post-header">
-                            <img src="<?= base_url('/avatar/' . ($post['avatar_url'] ?? 'default')) ?>" alt="" class="post-avatar">
+                            <img src="<?= $post['avatar_url'] && $post['avatar_url'] !== 'default' ? base_url('/avatar/' . $post['avatar_url']) : base_url('assets/img/default_avatar.png') ?>" alt="" class="post-avatar">
                             <div class="post-header-info">
                                 <span class="post-username"><?= esc($post['username']) ?></span>
                                 <span class="post-timestamp"><?= date('d M Y', strtotime($post['created_at'])) ?></span>

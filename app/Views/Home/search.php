@@ -21,7 +21,7 @@
                     <?php if(!empty($result['avatar_url'])): ?>
                         <img src="<?= base_url('/avatar/' . $result['avatar_url']) ?>" alt="" class="search-result-avatar">
                     <?php else: ?>
-                        <img src="<?= base_url('avatar/default_user.png') ?>" alt="" class="search-result-avatar">
+                        <img src="<?= base_url('assets/img/default_avatar.png') ?>" alt="" class="search-result-avatar">
                     <?php endif; ?>
                     <div class="search-result-info">
                         <span class="class-search-username"><?= esc($result['username']) ?></span>

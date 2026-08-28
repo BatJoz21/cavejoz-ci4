@@ -52,6 +52,14 @@ function getTimeForMessageBox(timestamp) {
     });
 }
 
+function getAvatarUrl(avatarUrl) {
+    if(!avatarUrl || avatarUrl === 'default') {
+        return `${BASE_URL}/assets/img/default_avatar.png`;
+    }
+
+    return `${BASE_URL}/avatar/${encodeURIComponent(avatarUrl)}`;
+}
+
 function getCsrfHeaderName() {
     return document.querySelector('meta[name="csrf-header"]').content;
 }
@@ -95,7 +103,7 @@ function buildPostCardHtml(post) {
     return `
         <div class="post-card" data-post-id="${post.id}">
             <div class="post-header">
-                <img src="${BASE_URL}/avatar/${encodeURIComponent(post.avatar_url)}" alt="" class="post-avatar">
+                <img src="${getAvatarUrl(post.avatar_url)}" alt="" class="post-avatar">
                 <div class="post-header-info">
                     <span class="post-username">${escapeHtml(post.username)}</span>
                     <span class="post-timestamp">${formatPostDate(post.created_at)}</span>

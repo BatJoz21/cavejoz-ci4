@@ -10,7 +10,7 @@
             const contentImageBaseUrl = <?= json_encode(base_url('/content/image/')) ?>;
         </script>
         <a href="<?= base_url('/posts/create') ?>" class="feed-composer">
-            <img src="<?= base_url('/avatar/' . ($avatarUrl ?? 'default')) ?>" alt="" class="feed-composer-avatar">
+            <img src="<?= $avatarUrl && $avatarUrl !== 'default' ? base_url('/avatar/' . $avatarUrl) : base_url('assets/img/default_avatar.png') ?>" alt="" class="feed-composer-avatar">
             <span class="feed-composer-prompt">What's on your mind?</span>
             <i class="bi bi-image feed-composer-icon"></i>
         </a>
@@ -20,7 +20,7 @@
                 <?php foreach($posts as $post): ?>
                     <div class="post-card">
                         <div class="post-header">
-                            <img src="<?= base_url('/avatar/' . ($post['avatar_url'] ?? 'default')) ?>" alt="" class="post-avatar">
+                            <img src="<?= $post['avatar_url'] && $post['avatar_url'] != 'default' ? base_url('/avatar/' . $post['avatar_url'] ?? 'default') : base_url('assets/img/default_avatar.png') ?>" alt="" class="post-avatar">
                             <div class="post-header-info">
                                 <span class="post-username"><?= esc($post['username']) ?></span>
                                 <span class="post-timestamp"><?= date('d M Y', strtotime($post['created_at'])) ?></span>

@@ -11,7 +11,7 @@
             <div class="chat-list">
                 <?php foreach($conversations as $c): ?>
                     <a href="<?= base_url('/chat/' . $c['id']) ?>" class="chat-item <?= ($c['has_unread']) ? 'unread' : '' ?>">
-                        <img src="<?= base_url('/avatar/' . ($c['avatar_url'] ?? 'default')) ?>" alt="" class="chat-avatar">
+                        <img src="<?= $c['avatar_url'] && $c['avatar_url'] !== 'default' ? base_url('/avatar/' . $c['avatar_url'] ?? 'default') : base_url('assets/img/default_avatar.png') ?>" alt="" class="chat-avatar">
                         <div class="chat-body">
                             <div class="chat-meta">
                                 <span class="chat-username"><?= esc($c['username']) ?></span>
