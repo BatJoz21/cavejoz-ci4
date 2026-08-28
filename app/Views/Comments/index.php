@@ -8,7 +8,7 @@
     <div class="comment-page">
         <div class="post-card">
             <div class="post-header">
-                <img src="<?= base_url('/avatar/' . ($post['avatar_url'] ?? 'default')) ?>" alt="" class="post-avatar">
+                <img src="<?= $post['avatar_url'] && $post['avatar_url'] !== 'default' ? base_url('/avatar/' . $post['avatar_url']) : base_url('assets/img/default_avatar.png') ?>" alt="" class="post-avatar">
                 <div class="post-header-info">
                     <span class="post-username"><?= esc($post['username']) ?></span>
                     <span class="post-timestamp"><?= date('d M Y', strtotime($post['created_at'])) ?></span>
@@ -64,7 +64,7 @@
             <div class="comment-list">
                 <?php foreach($comments as $comment): ?>
                     <div class="comment-item">
-                        <img src="<?= base_url('/avatar/' . ($comment['avatar_url'] ?? 'default')) ?>" alt="" class="comment-avatar">
+                        <img src="<?= $comment['avatar_url'] && $comment['avatar_url'] !== 'default' ? base_url('/avatar/' . $comment['avatar_url']) : base_url('assets/img/default_avatar.png') ?>" alt="" class="comment-avatar">
                         <div class="comment-body">
                             <div class="comment-meta">
                                 <span class="comment-username"><?= esc($comment['username']) ?></span>

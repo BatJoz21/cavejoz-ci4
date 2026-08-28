@@ -13,7 +13,7 @@
 
             <label for="">Profile Picture</label>
             <div class="edit-avatar-wrapper">
-                <img src="<?= base_url('/avatar/' . ($user['avatar_url'] ?? 'default')) ?>" alt="" class="edit-avatar-preview" id="avatarPreview">
+                <img src="<?= $user['avatar_url'] && $user['avatar_url'] !== 'default' ? base_url('/avatar/' . $user['avatar_url']) : base_url('assets/img/default_avatar.png') ?>" alt="" class="edit-avatar-preview" id="avatarPreview">
                 <div class="file-input-wrapper">
                     <button type="button" id="avatarTrigger" class="btn-file-choose">Change Photo</button>
                     <span id="avatarFileName" class="file-name">No new file choosen</span>

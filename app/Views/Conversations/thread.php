@@ -10,7 +10,7 @@
             <a href="<?= base_url('/chat') ?>" class="thread-back" aria-label="Back">
                 <i class="bi bi-arrow-bar-left"></i>
             </a>
-            <img src="<?= base_url('/avatar/' . ($conversation['avatar_url'] ?? 'default')) ?>" alt="" class="thread-avatar">
+            <img src="<?= $conversation['avatar_url'] && $conversation['avatar_url'] !== 'default' ? base_url('/avatar/' . $conversation['avatar_url']) : base_url('assets/img/default_avatar.png') ?>" alt="" class="thread-avatar">
             <a href="<?= base_url('/profile/' . $conversation['username']) ?>" class="thread-username"><?= esc($conversation['username']) ?></a>
         </div>
 

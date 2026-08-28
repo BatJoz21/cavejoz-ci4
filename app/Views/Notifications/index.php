@@ -17,7 +17,7 @@
             <div class="notification-list">
                 <?php foreach($notifications as $notif): ?>
                     <a href="<?= base_url('/notifications/' . $notif['id'] . '/visit') ?>" class="notification-item <?= ($notif['is_read']) ? '' : 'unread' ?>">
-                        <img src="<?= base_url('/avatar/' . ($notif['avatar_url'] ?? 'default')) ?>" alt="" class="notification-avatar">
+                        <img src="<?= $notif['avatar_url'] && $notif['avatar_url'] !== 'default' ? base_url('/avatar/' . $notif['avatar_url'] ?? 'default') : base_url('assets/img/default_avatar.png') ?>" alt="" class="notification-avatar">
                         <div class="notification-body">
                             <p class="notification-text"><?= esc($notif['preview']) ?></p>
                             <span class="notification-time"><?= esc(get_relative_time($notif['created_at'])) ?></span>
