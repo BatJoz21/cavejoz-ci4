@@ -25,7 +25,7 @@ class UserApiService extends BaseApiService
     public function getUserAvatarFileName()
     {
         return $this->handleRequest(function() {
-            $this->client->get('/user-avatar', [
+            return $this->client->get('/user-avatar', [
                 'headers'   => $this->getHeader()
             ]);
         });
