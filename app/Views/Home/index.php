@@ -10,7 +10,7 @@
             const contentImageBaseUrl = <?= json_encode(base_url('/content/image/')) ?>;
         </script>
         <a href="<?= base_url('/posts/create') ?>" class="feed-composer">
-            <img src="<?= base_url('/avatar/' . (session('user')['avatar_url'] ?? 'default')) ?>" alt="" class="feed-composer-avatar">
+            <img src="<?= base_url('/avatar/' . ($avatarUrl ?? 'default')) ?>" alt="" class="feed-composer-avatar">
             <span class="feed-composer-prompt">What's on your mind?</span>
             <i class="bi bi-image feed-composer-icon"></i>
         </a>

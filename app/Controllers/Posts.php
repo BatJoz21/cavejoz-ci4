@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Service\PostApiService;
+use App\Service\UserApiService;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
@@ -12,12 +13,14 @@ use GuzzleHttp\Exception\ResponseException;
 class Posts extends BaseController
 {
     private PostApiService $api;
+    private UserApiService $uApi;
     private Likes $like;
     private Comments $comment;
 
     public function __construct()
     {
         $this->api = new PostApiService();
+        $this->uApi = new UserApiService();
         $this->like = new Likes();
         $this->comment = new Comments();
     }
@@ -78,7 +81,16 @@ class Posts extends BaseController
         }
         unset($post);
 
-        return view('Home/index', ['posts' => $posts]);
+        $response2 = $this->uApi->getUserAvatarFileName();
+        $avatarUrl = 'default';
+        if($response2['success']) {
+            $avatarUrl = $response2['data']['avatar_url'];
+        }
+
+        return view('Home/index', [
+            'posts'         => $posts,
+            'avatarUrl'     => $avatarUrl
+        ]);
     }
 
     public function view(int $postID)
