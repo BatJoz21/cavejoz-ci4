@@ -81,6 +81,7 @@ class BaseApiService {
 
             $body = json_decode($response->getBody(), true);
             session()->set('access_token', $body['access_token']);
+            session()->set('refresh_token', $body['refresh_token']);
             return true;
         } catch(\Throwable $e) {
             return false;
